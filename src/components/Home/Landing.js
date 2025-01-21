@@ -8,8 +8,8 @@ const Landing = () => {
       <div className="intro-text">
         <h1>Hello There</h1>
         <p>
-          Greetings To Our School! We hope our website provides you with a
-          helpful introduction to our school.
+          Greetings To You All! We hope our website provides you with a helpful
+          introduction to our school.
         </p>
       </div>
     </div>

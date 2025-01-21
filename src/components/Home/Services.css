@@ -1,0 +1,40 @@
+.subjects {
+  padding-bottom: var(--section-padding);
+  padding-top: var(--section-padding);
+}
+
+#course h2 {
+  color: var(--main-color);
+  margin-bottom: var(--section-padding);
+  text-align: center;
+}
+
+.subjects .row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+@media (max-width: 992px) {
+  .subjects .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .subjects .row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.course-card {
+  transition: var(--main-duration);
+  -webkit-transition: var(--main-duration);
+  -moz-transition: var(--main-duration);
+  -ms-transition: var(--main-duration);
+  -o-transition: var(--main-duration);
+  border-bottom: 2px solid var(--main-color);
+}
+
+.course-card:hover {
+  background-color: var(--secondary-color);
+}

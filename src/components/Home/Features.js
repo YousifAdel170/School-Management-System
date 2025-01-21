@@ -23,25 +23,27 @@ const Features = () => {
     },
   };
   return (
-    <div className="features" id="feature">
-      {Object.keys(features.headings).map((key, index) => (
-        <div className="feat" key={index}>
-          <i className={`fa-3x ${features.icons[key]} text-primary mb-4`}></i>
-          <h3>{features.headings[key]}</h3>
-          <p>{features.paragraphs[key]}</p>
-        </div>
-      ))}
-    </div>
+    <>
+      <h2
+        style={{
+          color: "var(--main-color)",
+          paddingTop: "var(--section-padding)",
+          textAlign: "center",
+        }}
+      >
+        Features
+      </h2>
+      <div className="features" id="feature">
+        {Object.keys(features.headings).map((key, index) => (
+          <div className="feat" key={index}>
+            <i className={`fa-3x ${features.icons[key]} text-primary mb-4`}></i>
+            <h3>{features.headings[key]}</h3>
+            <p>{features.paragraphs[key]}</p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
 export default Features;
-
-// <div className="feat">
-// <i className="fa fa-3x fa-globe text-primary mb-4"></i>
-// <h3>Online enrollment</h3>
-// <p>
-//   Allow parents and students to enroll in classes using student ID,
-//   submit applications, and pay fees online.
-// </p>
-// </div>

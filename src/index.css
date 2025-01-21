@@ -23,7 +23,7 @@ body,
 .app {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Full height for the app */
+  min-height: 100vh;
 }
 
 :root {
@@ -31,7 +31,8 @@ body,
   --hover-main-color: #0056b3;
   --dark-mode-color: #333;
   --secondary-color: #f6f6f6;
-  --footer-color: #9979797;
+  --paragraph-color: #777;
+  --footer-color: #979797;
   --main-duration: 0.3s;
   --section-padding: 60px;
 }
@@ -47,7 +48,7 @@ body,
 }
 
 .dark-mode {
-  background-color: #333;
+  background-color: var(--dark-mode-color);
   color: var(--secondary-color);
 }
 
@@ -79,18 +80,29 @@ body,
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
 }
+
 .language-btn.light-mode {
   background-color: var(--main-color);
   border-color: var(--main-color);
 }
 .language-btn.light-mode:hover {
-  background-color: var(--hover-main-color);
+  background-color: #0056b3;
 }
 .language-btn.dark-mode {
   background-color: var(--dark-mode-color);
   border-color: var(--dark-mode-color);
 }
 .language-btn.dark-mode:hover {
+  background-color: black;
+}
+
+.btn.btn-primary.dark-mode.dark-hover:focus {
+  background-color: black;
+  outline: black;
+  box-shadow: 0 0 0.25rem black;
+}
+
+.dark-hover:hover {
   background-color: black;
 }
 
@@ -128,6 +140,7 @@ body,
   margin: 0 5px;
   box-shadow: 0 0 0.25rem var(--hover-main-color);
 }
+
 .links a:hover {
   background-color: var(--hover-main-color);
 }
@@ -183,6 +196,16 @@ body,
     color: var(--secondary-color);
   }
 
+  .sidebar .aside-links li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar .aside-links li a i {
+    margin-right: 0 !important;
+  }
+
   .links-mobile .icon-mobile {
     width: 30px;
     display: flex;
@@ -231,9 +254,42 @@ body,
   caret-color: var(--main-color);
 }
 
+.form-select {
+  width: 375px !important;
+  border: 1px solid var(--main-color) !important;
+  height: 37px !important;
+  border-radius: 8px !important;
+  -webkit-border-radius: 8px !important;
+  -moz-border-radius: 8px !important;
+  -ms-border-radius: 8px !important;
+  -o-border-radius: 8px !important;
+  transition: var(--main-duration) !important;
+  -webkit-transition: var(--main-duration) !important;
+  -moz-transition: var(--main-duration) !important;
+  -ms-transition: var(--main-duration) !important;
+  -o-transition: var(--main-duration) !important;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.add-teacher .form-select {
+  margin: 0;
+}
+
+.form-select option {
+  color: #757575;
+}
+
 @media (max-width: 767px) {
-  .user-input {
-    width: 300px;
+  .user-input,
+  .form-select {
+    width: 300px !important;
+  }
+
+  .add-student .form-select,
+  .add-student .user-input,
+  .add-student .btn-login {
+    width: 250px !important;
   }
 }
 
@@ -301,7 +357,6 @@ input:focus::placeholder {
 
 /* footer */
 .footer-background {
-  background-color: var(--main-color);
   padding: 10px 0;
 }
 .footer i {
@@ -320,10 +375,26 @@ input:focus::placeholder {
 .footer-text {
   color: var(--secondary-color);
   font-family: "Almarai";
-  font-size: 13px;
+  font-size: 15px;
   font-weight: bold;
   letter-spacing: 0;
   line-height: 18px;
+}
+
+@media (max-width: 991px) {
+  .footer-text {
+    font-size: 13px;
+  }
+}
+
+.copyright {
+  font-size: 17px;
+  padding-top: 15px;
+  text-align: center;
+  span {
+    font-weight: bold;
+    font-size: 20px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -332,6 +403,14 @@ input:focus::placeholder {
     align-items: center !important;
     justify-content: center !important;
     flex-wrap: wrap;
+  }
+  .copyright {
+    padding-top: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  .copyright span {
+    font-size: 17px;
   }
 }
 .footer-center {
@@ -348,3 +427,49 @@ input:focus::placeholder {
   text-align: right;
 }
 /* end footer */
+
+.success,
+.error {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
+
+form {
+  width: fit-content !important;
+  padding: 40px !important;
+  border-radius: 10px;
+  border: 0px solid var(--main-color);
+  box-shadow: 0px 0px 4px var(--main-color);
+  background-color: var(--secondary-color);
+}
+
+form .error,
+form .success {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+@media (max-width: 767px) {
+  table thead,
+  table tbody {
+    font-size: 13px !important;
+  }
+}
+table .btn {
+  padding: 4px 8px !important;
+}
+
+.add-teacher p span {
+  font-size: 15px;
+}

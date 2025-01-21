@@ -1,0 +1,105 @@
+/*start staff*/
+
+.teaching-staff {
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
+}
+.teaching-staff h2 {
+  color: var(--main-color);
+}
+.teaching-staff i {
+  transition: var(--main-duration);
+  -webkit-transition: var(--main-duration);
+  -moz-transition: var(--main-duration);
+  -ms-transition: var(--main-duration);
+  -o-transition: var(--main-duration);
+}
+
+.teaching-staff .row-staff {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+@media (max-width: 992px) {
+  .teaching-staff .row-staff {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .teaching-staff .row-staff {
+    grid-template-columns: 1fr;
+  }
+}
+.teaching-staff .teaching-staff-card {
+  border-radius: 10px;
+  border: 1px solid var(--main-color);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  background: #fff;
+  transition: transform var(--main-duration) ease;
+  -webkit-transition: transform var(--main-duration) ease;
+  -moz-transition: transform var(--main-duration) ease;
+  -ms-transition: transform var(--main-duration) ease;
+  -o-transition: transform var(--main-duration) ease;
+}
+
+.teaching-staff .teaching-staff-card:hover {
+  transform: translateY(-10px);
+  -webkit-transform: translateY(-10px);
+  -moz-transform: translateY(-10px);
+  -ms-transform: translateY(-10px);
+  -o-transform: translateY(-10px);
+}
+
+.teaching-staff .image-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.teaching-staff img {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border: 2px solid var(--main-color);
+}
+
+.teaching-staff .btn {
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+@media (max-width: 991px) {
+  /* .teaching-staff h5 {
+    font-size: 16px;
+  }
+  .teaching-staff .btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .teaching-staff i {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+}
+
+.teaching-staff h5 {
+  color: var(--main-color);
+}
+
+.teaching-staff small {
+  color: var(--paragraph-color);
+  font-weight: bold;
+}
+
+/*end staff*/

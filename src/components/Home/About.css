@@ -1,0 +1,26 @@
+.about {
+  padding-top: var(--section-padding);
+  padding-bottom: var(--section-padding);
+}
+.main-blue-color {
+  color: var(--main-color);
+}
+.main-dark-color {
+  color: var(--dark-mode-color);
+}
+
+div h2 {
+  padding: 5px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.about p {
+  color: var(--paragraph-color);
+}
+
+@media (max-width: 991px) {
+  .mobile-image-hidden {
+    display: none;
+  }
+}
