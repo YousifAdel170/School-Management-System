@@ -20,18 +20,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM students";
-$result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    $Data = [];
-    while($row = $result->fetch_assoc()){    
-        $Data[] = $row;
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+    $deleted_id = intval($_GET['id']); // Ensure it's an integer
+
+    // Delete from students table first
+    $sql_subject = "DELETE FROM subjects WHERE id = '$deleted_id'";
+    if ($conn->query($sql_subject) === TRUE) {
+        echo json_encode(["success" => true, "message" => "subject data deleted from subject table successfully"]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Failed to delete subject from subjects table: " . $conn->error]);
     }
-    echo json_encode(["success" => true, "message" => "Students Data Received Successfully", "Data" => $Data]);
 } else {
-    echo json_encode(["success" => false, "message" => "Currently, there is no data in the students table."]);
+    echo json_encode(["success" => false, "message" => "The ID not getting right or it is not integer"]);
 }
 
 $conn->close();
 ?>
+
+
+

@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../Admin/AdminAdmission.css";
 import { Table } from "react-bootstrap";
-import { viewTeacherHeading } from "../../scripts/config";
+import {
+  GET_METHOD,
+  MESSAGE_DELAY,
+  URL_GET_TEACHER,
+  viewTeacherHeading,
+} from "../../scripts/config";
 import { useSelector } from "react-redux";
+import { fetchData } from "../../Logic/fetchData";
 
 const TeacherViewTeachers = () => {
   const [error, setError] = useState("");
@@ -11,48 +17,22 @@ const TeacherViewTeachers = () => {
   const dataLanguage = useSelector((state) => state.language);
 
   useEffect(() => {
-    const fetchTeachersData = async () => {
-      try {
-        const url =
-          "http://127.0.0.1/school-managment-system-full/backend/get_all_teachers.php";
-
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        // Check if the response is not OK
-        if (!response.ok) {
-          throw new Error(
-            dataLanguage === "ar"
-              ? "الاستجابة من الشبكة لم تكن صحيحة"
-              : "Network response was not ok"
-          );
-        }
-
-        // Parse JSON response
-        const data = await response.json();
-
-        setTeachersData(data.teachersData);
-        if (data.success) {
-          setMsg(data.message);
-        } else {
-          setError(data.message);
-        }
-      } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
-        setError(
-          dataLanguage === "ar"
-            ? "حدث خطأ ما. يرجى المحاولة مرة أخرى."
-            : "Something went wrong. Please try again."
-        );
-      }
-    };
-
-    fetchTeachersData();
+    fetchData(
+      setTeachersData,
+      setMsg,
+      setError,
+      GET_METHOD,
+      URL_GET_TEACHER,
+      dataLanguage
+    );
   }, [dataLanguage]);
+
+  // Clear the message after 5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setMsg("");
+    }, MESSAGE_DELAY);
+  }, [msg]);
 
   return (
     <div className="table">

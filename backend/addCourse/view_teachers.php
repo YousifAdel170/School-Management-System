@@ -1,3 +1,4 @@
+
 <?php 
 
 // Allow all origins (you can specify a specific domain here if needed)
@@ -20,7 +21,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM students";
+$sql = "SELECT ID, name  FROM teachingstaff";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -28,10 +29,11 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()){    
         $Data[] = $row;
     }
-    echo json_encode(["success" => true, "message" => "Students Data Received Successfully", "Data" => $Data]);
+    echo json_encode(["success" => true, "message" => "Teachers IDs Received Successfully", "Data" => $Data]);
 } else {
-    echo json_encode(["success" => false, "message" => "Currently, there is no data in the students table."]);
+    echo json_encode(["success" => false, "message" => "Currently, there is no data in the teachingstaff table."]);
 }
+
 
 $conn->close();
 ?>

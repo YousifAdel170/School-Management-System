@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../Admin/AdminAdmission.css";
 import { Table } from "react-bootstrap";
-import { addSubjectsHeadings } from "../../scripts/config";
+import {
+  addSubjectsHeadings,
+  GET_METHOD,
+  MESSAGE_DELAY,
+  URL_GET_SUBJECTS,
+} from "../../scripts/config";
 import { useSelector } from "react-redux";
+import { fetchData } from "../../Logic/fetchData";
 
 const TeacherViewCourses = () => {
   const [error, setError] = useState("");
@@ -11,46 +17,22 @@ const TeacherViewCourses = () => {
   const dataLanguage = useSelector((state) => state.language);
 
   useEffect(() => {
-    const fetchSubjectsData = async () => {
-      try {
-        const url =
-          "http://127.0.0.1/school-managment-system-full/backend/get_all_subjects.php";
+    fetchData(
+      setSubjectsData,
+      setMsg,
+      setError,
+      GET_METHOD,
+      URL_GET_SUBJECTS,
+      dataLanguage
+    );
+  }, [dataLanguage]);
 
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        // Check if the response is not OK
-        if (!response.ok) {
-          throw new Error(
-            dataLanguage === "ar"
-              ? "الاستجابة من الشبكة لم تكن صحيحة"
-              : "Network response was not ok"
-          );
-        }
-
-        // Parse JSON response
-        const data = await response.json();
-
-        setSubjectsData(data.subjectsData);
-        if (data.success) {
-          setMsg(data.message);
-        } else {
-          setError(data.message);
-        }
-      } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
-        setError(
-          dataLanguage === "ar"
-            ? "حدث خطأ ما. يرجى المحاولة مرة أخرى."
-            : "Something went wrong. Please try again."
-        );
-      }
-    };
-    fetchSubjectsData();
-  }, [msg, dataLanguage]);
+  // Clear the message after 5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setMsg("");
+    }, MESSAGE_DELAY);
+  }, [msg]);
 
   return (
     <div className="table">

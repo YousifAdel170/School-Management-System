@@ -24,11 +24,11 @@ $sql = "SELECT * FROM teachingstaff";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    $teachersData = [];
+    $Data = [];
     while($row = $result->fetch_assoc()){    
-        $teachersData[] = $row;
+        $Data[] = $row;
     }
-    echo json_encode(["success" => true, "message" => "Teachers Data Received Successfully", "teachersData" => $teachersData]);
+    echo json_encode(["success" => true, "message" => "Teachers Data Received Successfully", "Data" => $Data]);
 } else {
     echo json_encode(["success" => false, "message" => "Currently, there is no data in the teachingstaff table."]);
 }

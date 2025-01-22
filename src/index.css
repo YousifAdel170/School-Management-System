@@ -138,6 +138,19 @@ body,
 }
 
 @media (max-width: 767px) {
+  .sidebar .aside-links li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar .aside-links li a i {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media (max-width: 991px) {
   .links-mobile {
     position: relative;
     display: flex;
@@ -192,16 +205,6 @@ body,
   .links-mobile ul li a:hover {
     padding-left: 25px;
     color: var(--secondary-color);
-  }
-
-  .sidebar .aside-links li a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .sidebar .aside-links li a i {
-    margin-right: 0 !important;
   }
 
   .links-mobile .icon-mobile {

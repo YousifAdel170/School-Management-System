@@ -39,6 +39,7 @@ $feeID = 20;
 $classID = 6;
 $BOD = $data['BOD'];
 $gender = $data['gender'];
+$admission_date = date('Y-m-d');
 
 
 // Check if email already exists
@@ -52,8 +53,6 @@ if ($result->num_rows > 0) {
     $sql = "INSERT INTO users (username, email, password, roleID) VALUES ('$username', '$email', '$password_hash', '$roleID')";
     
     if ($conn->query($sql) === TRUE) {
-        echo json_encode(["success" => true, "message" => "Student Has Been Added Successfully into the users table"]);
-        
         $sql_getUserID = "SELECT ID FROM users WHERE email = '$email'";
         $result_getUserID = $conn->query($sql_getUserID);
         $row = $result_getUserID->fetch_assoc();
@@ -67,7 +66,7 @@ if ($result->num_rows > 0) {
         }
 
 
-        $sql_students = "INSERT INTO students (name, gender, student_status, bod, user_id, feeID, classID) VALUES ('$username', '$gender_label', 'Active', '$BOD', '$user_id', '$feeID', '$classID')";
+        $sql_students = "INSERT INTO students (name, gender, student_status, bod, user_id, feeID, classID, admission_date) VALUES ('$username', '$gender_label', 'Active', '$BOD', '$user_id', '$feeID', '$classID', '$admission_date')";
 
         if ($conn->query($sql_students) === TRUE) {
             echo json_encode(["success" => true, "message" => "Student has been added successfully to both tables"]);

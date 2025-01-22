@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./AdminAdmission.css";
 import { Table } from "react-bootstrap";
-import { admissionHeadings } from "../../scripts/config";
+import {
+  admissionHeadings,
+  MESSAGE_DELAY,
+  POST_METHOD,
+  URL_GET_ADMISSION,
+} from "../../scripts/config";
 import { useSelector } from "react-redux";
+import { fetchData } from "../../Logic/fetchData";
+import { getRoleNameFromID } from "../../Logic/getRoleNameFromID";
 
 const AdminAdmission = () => {
   const [error, setError] = useState("");
@@ -10,57 +17,23 @@ const AdminAdmission = () => {
   const [admissionData, setAdmissionData] = useState([]);
   const dataLanguage = useSelector((state) => state.language);
 
-  const fetchAdmissionData = async () => {
-    try {
-      const url =
-        "http://127.0.0.1/school-managment-system-full/backend/get_admission.php";
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // Check if the response is not OK
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      // console.log(response);
-      // Parse JSON response
-      const data = await response.json();
-
-      // console.log(data);
-
-      setAdmissionData(data.admissionData);
-      if (data.success) {
-        // console.log(data.admissionData);
-        setMsg(data.message);
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      setError("Something went wrong. Please try again.");
-    }
-  };
-
   useEffect(() => {
-    fetchAdmissionData();
-  }, []);
+    fetchData(
+      setAdmissionData,
+      setMsg,
+      setError,
+      POST_METHOD,
+      URL_GET_ADMISSION,
+      dataLanguage
+    );
+  }, [dataLanguage]);
 
-  const getRoleNameFromID = (roleID) => {
-    switch (roleID) {
-      case "1":
-        return "Student";
-      case "2":
-        return "Teaching-staff";
-      case "3":
-        return "Parent";
-      default:
-        return "Unknown";
-    }
-  };
+  // Clear the message after 5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setMsg("");
+    }, MESSAGE_DELAY);
+  }, [msg]);
 
   return (
     <div className="table">

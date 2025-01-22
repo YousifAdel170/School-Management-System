@@ -24,11 +24,11 @@ $sql = "SELECT * FROM admission";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    $admissionData = [];
+    $Data = [];
     while($row = $result->fetch_assoc()){    
-        $admissionData[] = $row;
+        $Data[] = $row;
     }
-    echo json_encode(["success" => true, "message" => "Admission Data Received Successfully", "admissionData" => $admissionData]);
+    echo json_encode(["success" => true, "message" => "Admission Data Received Successfully", "Data" => $Data]);
 } else {
     echo json_encode(["success" => false, "message" => "Currently, there is no data in the admission table."]);
 }

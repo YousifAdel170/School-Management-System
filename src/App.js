@@ -7,7 +7,6 @@ import ParentPage from "./Pages/ParentPage";
 import StudentPage from "./Pages/StudentPage";
 import TeacherPage from "./Pages/TeacherPage";
 import SupervisorPage from "./Pages/SupervisorPage";
-import useLanguageDirection from "./LanguageLogic/useLanguageDirection";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminAddStudent from "./components/Admin/AdminAddStudent";
 import AdminAdmission from "./components/Admin/AdminAdmission";
@@ -27,6 +26,7 @@ import TeacherViewTeachers from "./components/Teacher/TeacherViewTeachers";
 import TeacherViewStudents from "./components/Teacher/TeacherViewStudents";
 import AdminUpdateTeacher from "./components/Admin/AdminUpdateTeacher";
 import AdminUpdateCourse from "./components/Admin/AdminUpdateCourse";
+import useLanguageDirection from "./Logic/useLanguageDirection";
 
 function App() {
   useLanguageDirection();

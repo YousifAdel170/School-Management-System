@@ -1,52 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { fetchData } from "../../Logic/fetchData";
+import {
+  MESSAGE_DELAY,
+  POST_METHOD,
+  URL_GET_STATISTICS,
+} from "../../scripts/config";
 
 const AdminStatistics = () => {
-  const [subjectCounter, setSubjectCounter] = useState();
-  const [studentCounter, setStudentCounter] = useState();
-  const [averageStdPerSub, setAverageStdPerSub] = useState();
+  const [statsData, setStatsData] = useState([]);
+  const [studentCounter, setStudentCounter] = useState(0);
+  const [subjectCounter, setSubjectCounter] = useState(0);
+  const [averageStdPerSubject, setAverageStdPerSubject] = useState(0);
+  const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
+
   const dataLanguage = useSelector((state) => state.language);
 
-  const fetchAdmissionData = async () => {
-    try {
-      const url =
-        "http://127.0.0.1/school-managment-system-full/backend/stats.php";
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // Check if the response is not OK
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      // console.log(response);
-      const data = await response.json();
-
-      // console.log(data.statsData[0]);
-      // console.log(data.statsData[1]);
-      // console.log(data.statsData[2]);
-      if (data.success) {
-        setStudentCounter(data.statsData[0].std_counter);
-        setSubjectCounter(data.statsData[1].subject_counter);
-        setAverageStdPerSub(data.statsData[2].average);
-      }
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-    }
-  };
+  useEffect(() => {
+    fetchData(
+      setStatsData,
+      setMsg,
+      setError,
+      POST_METHOD,
+      URL_GET_STATISTICS,
+      dataLanguage
+    );
+  }, [dataLanguage]);
 
   useEffect(() => {
-    fetchAdmissionData();
-  }, []);
+    if (statsData.length) {
+      setStudentCounter(statsData[0].std_counter);
+      setSubjectCounter(statsData[1].subject_counter);
+      setAverageStdPerSubject(statsData[2].average);
+    }
+  }, [statsData]);
+
+  // Clear the message after 5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setMsg("");
+    }, MESSAGE_DELAY);
+  }, [msg]);
 
   return (
     <div className="table">
       <h3>{dataLanguage === "ar" ? "جدول الإحصائيات" : "Stats Table"}</h3>
+      <p>
+        {error !== "" ? (
+          <span className="error">{error}</span>
+        ) : (
+          <span className="success">{msg}</span>
+        )}
+      </p>
       <Table striped bordered hover className="text-center">
         <thead>
           <tr>
@@ -67,7 +74,7 @@ const AdminStatistics = () => {
           <tr>
             <td>{studentCounter}</td>
             <td>{subjectCounter}</td>
-            <td>{averageStdPerSub}</td>
+            <td>{averageStdPerSubject}</td>
           </tr>
         </tbody>
       </Table>

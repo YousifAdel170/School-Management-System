@@ -72,7 +72,7 @@ const NavBar = ({ logout }) => {
             {logout ? (
               <button className={`language-btn light-mode`}>
                 <Link
-                  to={"/"}
+                  to={"/login"}
                   style={{ color: "white", textDecoration: "none" }}
                 >
                   {language === "ar" ? "تسجيل الخروج" : "Logout"}

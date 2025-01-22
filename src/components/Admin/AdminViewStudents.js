@@ -2,81 +2,46 @@ import React, { useEffect, useState } from "react";
 import "./AdminAdmission.css";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { addStudentHeadings } from "../../scripts/config";
+import {
+  addStudentHeadings,
+  GET_METHOD,
+  MESSAGE_DELAY,
+  STUDENT_TYPE,
+  UPDATE_STUDENT_TYPE,
+  URL_DELELE_STUDENT,
+  URL_GET_STUDENTS,
+} from "../../scripts/config";
 import { useSelector } from "react-redux";
+import { fetchData } from "../../Logic/fetchData";
+import { handleDelete } from "../../Logic/handleDelete";
+import { handleNavigateUpdate } from "../../Logic/handleNavigateUpdate";
 
 const AdminViewStudents = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const [studentsData, setStudentsData] = useState([]);
+
   const dataLanguage = useSelector((state) => state.language);
-
-  const fetchStudentsData = async () => {
-    try {
-      const url =
-        "http://127.0.0.1/school-managment-system-full/backend/get_all_students.php";
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      // Check if the response is not OK
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      //   console.log(response);
-      // Parse JSON response
-      const data = await response.json();
-
-      //   console.log(data);
-
-      setStudentsData(data.studentsData);
-      if (data.success) {
-        // console.log(data.studentsData);
-        setMsg(data.message);
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
-      setError("Something went wrong. Please try again.");
-    }
-  };
-
-  useEffect(() => {
-    fetchStudentsData();
-  }, []);
-
-  const handleDelete = async (e, studentID) => {
-    e.preventDefault();
-    console.log("Deleting student with ID:", studentID); // Add this log to check the studentID
-    try {
-      const url = `http://127.0.0.1/school-managment-system-full/backend/delete.php?id=${studentID}`;
-
-      const response = await fetch(url, {
-        method: "GET",
-      });
-      const data = await response.json();
-      if (data.success) {
-        console.log(data.message);
-        fetchStudentsData();
-      } else {
-        console.error("Error deleting student:", data.message); // Log the error message from server
-      }
-    } catch (error) {
-      console.error("Error during delete operation:", error); // Log any network or other errors
-    }
-  };
 
   const navigate = useNavigate();
 
-  const handleNavigateUpdate = (e, studentID) => {
-    e.preventDefault();
-    navigate(`/supervisor/update_student/${studentID}`);
-  };
+  useEffect(() => {
+    fetchData(
+      setStudentsData,
+      setMsg,
+      setError,
+      GET_METHOD,
+      URL_GET_STUDENTS,
+      dataLanguage
+    );
+  }, [dataLanguage]);
+
+  // Clear the message after 5 seconds
+  useEffect(() => {
+    setTimeout(() => {
+      setMsg("");
+    }, MESSAGE_DELAY);
+  }, [msg]);
 
   return (
     <div className="table">
@@ -122,7 +87,14 @@ const AdminViewStudents = () => {
                 <td>
                   <button
                     className="btn btn-primary"
-                    onClick={(e) => handleNavigateUpdate(e, student.user_id)}
+                    onClick={(e) =>
+                      handleNavigateUpdate(
+                        e,
+                        navigate,
+                        UPDATE_STUDENT_TYPE,
+                        student.user_id
+                      )
+                    }
                   >
                     {dataLanguage === "ar" ? "تحديث" : "Update"}
                   </button>
@@ -130,7 +102,20 @@ const AdminViewStudents = () => {
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={(e) => handleDelete(e, student.user_id)}
+                    onClick={(e) =>
+                      handleDelete(
+                        e,
+                        student.user_id,
+                        STUDENT_TYPE,
+                        `${URL_DELELE_STUDENT}${student.user_id}`,
+                        setStudentsData,
+                        setMsg,
+                        setError,
+                        GET_METHOD,
+                        URL_GET_STUDENTS,
+                        dataLanguage
+                      )
+                    }
                   >
                     {dataLanguage === "ar" ? "حذف" : "Delete"}
                   </button>
