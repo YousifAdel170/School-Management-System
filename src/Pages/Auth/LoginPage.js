@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import NavBar from "../../components/utilities/NavBar";
 
 const LoginPage = () => {
@@ -9,6 +10,9 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
+
+  // Get current language from the Redux store
+  const dataLanguage = useSelector((state) => state.language);
 
   useEffect(() => {
     setTimeout(function () {
@@ -22,12 +26,22 @@ const LoginPage = () => {
       case "email":
         setError("");
         setEmail(e.target.value);
-        if (e.target.value === "") setError("Email has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "تم ترك البريد الإلكتروني فارغًا"
+              : "Email has left blank"
+          );
         break;
       case "password":
         setError("");
         setPassword(e.target.value);
-        if (e.target.value === "") setError("Password has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "تم ترك كلمة المرور فارغة"
+              : "Password has left blank"
+          );
         break;
       default:
     }
@@ -66,11 +80,20 @@ const LoginPage = () => {
         // Handle response based on success or failure
         if (data.success) {
           localStorage.setItem("roleID", data.roleID);
-          localStorage.setItem("userType", data.userType);
 
-          console.log("Login Successful, redirecting...", data.message);
-          setMsg("Logged in successfully! Redirecting...");
-          console.log(data.roleID);
+          if (data.ID === "1") localStorage.setItem("userType", "supervisor");
+          else localStorage.setItem("userType", "teacher");
+
+          console.log(data);
+          console.log(data.userType);
+
+          console.log(data.message);
+          setMsg(
+            dataLanguage === "ar"
+              ? "تم تسجيل الدخول بنجاح! جاري التوجيه..."
+              : "Logged in successfully! Redirecting..."
+          );
+
           // Redirect after a delay
           setTimeout(() => {
             switch (data.roleID) {
@@ -94,22 +117,31 @@ const LoginPage = () => {
       } catch (error) {
         // Handle network or unexpected errors
         console.error("There was a problem with the fetch operation:", error);
-        setError("Something went wrong. Please try again.");
+        setError(
+          dataLanguage === "ar"
+            ? "حدث خطأ. يرجى المحاولة مرة أخرى."
+            : "Something went wrong. Please try again."
+        );
       }
     } else {
       // Handle empty input fields
-      setError("All fields are required");
+      setError(
+        dataLanguage === "ar" ? "جميع الحقول مطلوبة" : "All fields are required"
+      );
     }
   };
+
   return (
     <div style={{ flex: "1" }}>
-      <NavBar logout={0} />{" "}
+      <NavBar logout={0} />
       <Container>
         <Row className="py-5 d-flex justify-content-center">
           <form onSubmit={handleSubmit}>
             <Col sm="12" className="d-flex flex-column">
               <label className="mx-auto title-login">
-                Log Into Your Account
+                {dataLanguage === "ar"
+                  ? "تسجيل الدخول إلى حسابك"
+                  : "Log Into Your Account"}
               </label>
               <p>
                 {error !== "" ? (
@@ -119,7 +151,9 @@ const LoginPage = () => {
                 )}
               </p>
               <input
-                placeholder="Email Address"
+                placeholder={
+                  dataLanguage === "ar" ? "البريد الإلكتروني" : "Email Address"
+                }
                 type="text"
                 className="user-input my-3 text-center mx-auto"
                 name="email"
@@ -127,7 +161,7 @@ const LoginPage = () => {
                 onChange={(e) => handelInputChange(e, "email")}
               />
               <input
-                placeholder="Password"
+                placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
                 type="password"
                 className="user-input text-center mx-auto"
                 value={password}
@@ -135,14 +169,15 @@ const LoginPage = () => {
                 onChange={(e) => handelInputChange(e, "password")}
               />
               <button className="btn-login mx-auto mt-4" onClick={handleSubmit}>
-                Login
+                {dataLanguage === "ar" ? "دخول" : "Login"}
               </button>
               <label className="mx-auto mt-4">
-                Don't have an account?{" "}
+                {dataLanguage === "ar"
+                  ? "ليس لديك حساب؟ "
+                  : "Don't have an account? "}
                 <Link to={"/register"} style={{ textDecoration: "none" }}>
-                  {" "}
                   <span style={{ cursor: "pointer" }} className="change-link">
-                    Sign Up
+                    {dataLanguage === "ar" ? "سجل الآن" : "Sign Up"}
                   </span>
                 </Link>
               </label>

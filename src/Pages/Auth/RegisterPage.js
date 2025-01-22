@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../../components/utilities/NavBar";
+import { useSelector } from "react-redux";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -19,6 +20,8 @@ const RegisterPage = () => {
   const passwordRef = useRef(null);
   const confirmPassRef = useRef(null);
 
+  const dataLanguage = useSelector((state) => state.language);
+
   useEffect(() => {
     setEmail(emailRef.current.value);
     setUsername(usernameRef.current.value);
@@ -33,7 +36,7 @@ const RegisterPage = () => {
     }, 5000);
   }, [msg]);
 
-  // handling the chnage of the selection options
+  // handling the change of the selection options
   const handleRoleChange = (e) => {
     setRoleID(e.target.value);
   };
@@ -44,25 +47,48 @@ const RegisterPage = () => {
       case "username":
         setError("");
         setUsername(e.target.value);
-        if (e.target.value === "") setError("Username has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "اسم المستخدم فارغ"
+              : "Username has left blank"
+          );
         break;
       case "email":
         setError("");
         setEmail(e.target.value);
-        if (e.target.value === "") setError("Email has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "البريد الإلكتروني فارغ"
+              : "Email has left blank"
+          );
         break;
       case "password":
         setError("");
         setPassword(e.target.value);
-        if (e.target.value === "") setError("Password has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "كلمة المرور فارغة"
+              : "Password has left blank"
+          );
         break;
       case "confirmPass":
         setError("");
         setConfirmationPassword(e.target.value);
         if (e.target.value === "")
-          setError("Confirmation Password has left blank");
+          setError(
+            dataLanguage === "ar"
+              ? "تأكيد كلمة المرور فارغ"
+              : "Confirmation Password has left blank"
+          );
         else if (e.target.value !== password) {
-          setError("Confirmation Password doesn't match with the Password");
+          setError(
+            dataLanguage === "ar"
+              ? "تأكيد كلمة المرور لا يتطابق مع كلمة المرور"
+              : "Confirmation Password doesn't match with the Password"
+          );
         }
         break;
       default:
@@ -101,21 +127,37 @@ const RegisterPage = () => {
         try {
           const data = JSON.parse(responseText);
           if (data.success) {
-            setMsg("Registration successful! Redirecting...");
+            setMsg(
+              dataLanguage === "ar"
+                ? "تم التسجيل بنجاح! إعادة التوجيه..."
+                : "Registration successful! Redirecting..."
+            );
             setTimeout(() => navigate("/login"), 3000);
           } else {
             setError(data.message);
           }
         } catch (error) {
           console.error("Failed to parse JSON:", responseText);
-          setError("Unexpected response from the server.");
+          setError(
+            dataLanguage === "ar"
+              ? "استجابة غير متوقعة من الخادم"
+              : "Unexpected response from the server."
+          );
         }
       } catch (error) {
         console.error("Fetch Error:", error.message);
-        setError("Something went wrong. Please try again.");
+        setError(
+          dataLanguage === "ar"
+            ? "حدث خطأ. يرجى المحاولة مرة أخرى."
+            : "Something went wrong. Please try again."
+        );
       }
     } else {
-      setError("All fields are required.");
+      setError(
+        dataLanguage === "ar"
+          ? "جميع الحقول مطلوبة."
+          : "All fields are required."
+      );
       console.log({
         username,
         email,
@@ -132,7 +174,9 @@ const RegisterPage = () => {
         <Row className="py-5 d-flex justify-content-center">
           <form onSubmit={handleRegister}>
             <Col sm="12" className="d-flex flex-column">
-              <label className="mx-auto title-login">Welcome! Sign Up</label>
+              <label className="mx-auto title-login">
+                {dataLanguage === "ar" ? "مرحبًا! سجل هنا" : "Welcome! Sign Up"}
+              </label>
               <p>
                 {error !== "" ? (
                   <span className="error">{error}</span>
@@ -141,7 +185,9 @@ const RegisterPage = () => {
                 )}
               </p>
               <input
-                placeholder="Username"
+                placeholder={
+                  dataLanguage === "ar" ? "اسم المستخدم" : "Username"
+                }
                 type="text"
                 ref={usernameRef}
                 className="user-input mt-3 text-center mx-auto"
@@ -150,7 +196,9 @@ const RegisterPage = () => {
                 onChange={(e) => handelInputChange(e, "username")}
               />
               <input
-                placeholder="Email Address"
+                placeholder={
+                  dataLanguage === "ar" ? "البريد الإلكتروني" : "Email Address"
+                }
                 type="text"
                 ref={emailRef}
                 className="user-input my-3 text-center mx-auto"
@@ -159,7 +207,7 @@ const RegisterPage = () => {
                 onChange={(e) => handelInputChange(e, "email")}
               />
               <input
-                placeholder="Password"
+                placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
                 type="password"
                 ref={passwordRef}
                 className="user-input text-center mx-auto mb-3"
@@ -168,7 +216,11 @@ const RegisterPage = () => {
                 onChange={(e) => handelInputChange(e, "password")}
               />
               <input
-                placeholder="Password Confirmation"
+                placeholder={
+                  dataLanguage === "ar"
+                    ? "تأكيد كلمة المرور"
+                    : "Password Confirmation"
+                }
                 type="password"
                 ref={confirmPassRef}
                 className="user-input text-center mx-auto mb-3"
@@ -178,20 +230,34 @@ const RegisterPage = () => {
               />
 
               <Form.Select name="roleID" onChange={handleRoleChange}>
-                <optgroup label="Select Your Role">
-                  <option value="1">Student</option>
-                  <option value="2">Teacher</option>
-                  <option value="3">Parent</option>
+                <optgroup
+                  label={
+                    dataLanguage === "ar" ? "اختار دورك" : "Select Your Role"
+                  }
+                >
+                  <option value="1">
+                    {dataLanguage === "ar" ? "طالب" : "Student"}
+                  </option>
+                  <option value="2">
+                    {dataLanguage === "ar" ? "معلم" : "Teacher"}
+                  </option>
+                  <option value="3">
+                    {dataLanguage === "ar" ? "ولي أمر" : "Parent"}
+                  </option>
                 </optgroup>
               </Form.Select>
 
-              <button className="btn-login mx-auto mt-4">Register</button>
+              <button className="btn-login mx-auto mt-4">
+                {dataLanguage === "ar" ? "سجل" : "Register"}
+              </button>
               <label className="mx-auto mt-4">
-                Already registered?{" "}
+                {dataLanguage === "ar"
+                  ? "هل أنت مسجل بالفعل؟ "
+                  : "Already registered? "}
                 <Link to={"/login"} style={{ textDecoration: "none" }}>
                   {" "}
                   <span style={{ cursor: "pointer" }} className="change-link">
-                    Log In
+                    {dataLanguage === "ar" ? "تسجيل الدخول" : "Log In"}
                   </span>
                 </Link>
               </label>

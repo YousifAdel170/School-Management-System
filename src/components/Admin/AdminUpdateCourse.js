@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Col, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./AdminAddStudent.css";
 import { useSelector } from "react-redux";
 import { MESSAGE_DELAY, REDIRECTING_DELAY } from "../../scripts/config";
 
-const AdminAddCourse = () => {
+const AdminUpdateCourse = () => {
+  const { id } = useParams();
+
+  const dataLanguage = useSelector((state) => state.language);
+
   const [subjectName, setSubjectName] = useState("");
   const [subjectCode, setSubjectCode] = useState("");
   const [teachingstaffID, setTeachingstaffID] = useState("");
-
-  const dataLanguage = useSelector((state) => state.language);
+  const [updatedID, setUpdatedID] = useState(null);
 
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
@@ -24,7 +27,6 @@ const AdminAddCourse = () => {
   const teachingstaffIDRef = useRef(null);
 
   useEffect(() => {
-    // Define fetchTeacherIDsData inside useEffect
     const fetchTeacherIDsData = async () => {
       try {
         const url =
@@ -36,30 +38,40 @@ const AdminAddCourse = () => {
             "Content-Type": "application/json",
           },
         });
-
+        // Check if the response is not OK
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
 
+        //   console.log(response);
+        // Parse JSON response
         const data = await response.json();
+
+        //   console.log(data);
+
         setTeacherIDs(data.teacherIDs);
         if (data.success) {
+          // console.log(data.teacherIDs);
           setMsg(data.message);
         } else {
           setError(data.message);
         }
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
-        setError("Something went wrong. Please try again.");
+        setError(
+          dataLanguage === "ar"
+            ? "حدث خطأ. حاول مرة أخرى."
+            : "Something went wrong. Please try again."
+        );
       }
     };
 
-    // Call the function inside useEffect
     fetchTeacherIDsData();
+    setUpdatedID(id);
     setSubjectName(subjectNameRef.current.value);
     setSubjectCode(subjectCodeRef.current.value);
     setTeachingstaffID(teachingstaffIDRef.current.value);
-  }, []);
+  }, [id, dataLanguage]);
 
   // Clear the message after 5 seconds
   useEffect(() => {
@@ -107,7 +119,7 @@ const AdminAddCourse = () => {
     if (subjectName && subjectCode && teachingstaffID) {
       try {
         const url =
-          "http://127.0.0.1/school-managment-system-full/backend/addCourse/add_course.php";
+          "http://127.0.0.1/school-managment-system-full/backend/update_subject.php";
 
         // Make the fetch request
         const response = await fetch(url, {
@@ -116,6 +128,7 @@ const AdminAddCourse = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            updatedID,
             subjectName,
             subjectCode,
             teachingstaffID,
@@ -132,8 +145,8 @@ const AdminAddCourse = () => {
           if (data.success) {
             setMsg(
               dataLanguage === "ar"
-                ? "تم إضافة المادة بنجاح! سيتم إعادة التوجيه..."
-                : "Subject Has Been Added Successfully! Redirecting..."
+                ? "تم تحديث المادة بنجاح! جارٍ التحويل..."
+                : "Subject Has Been Updated Successfully! Redirecting..."
             );
             setTimeout(
               () => navigate("/supervisor/view_courses"),
@@ -160,7 +173,7 @@ const AdminAddCourse = () => {
       className="add-std"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
-      <h3>{dataLanguage === "ar" ? "إضافة مادة" : "Add Subject"}</h3>
+      <h3>{dataLanguage === "ar" ? "تحديث المادة" : "Update Subject"}</h3>
       <form
         onSubmit={handleSubmit}
         className="add-student"
@@ -168,7 +181,7 @@ const AdminAddCourse = () => {
       >
         <Col sm="12" className="d-flex flex-column">
           <label className="mx-auto title-login">
-            {dataLanguage === "ar" ? "إضافة مادة جديدة" : "Add a New Subject"}
+            {dataLanguage === "ar" ? "تحديث المادة" : "Update The Subject"}
           </label>
           <p>
             {error !== "" ? (
@@ -206,7 +219,7 @@ const AdminAddCourse = () => {
             <optgroup
               label={
                 dataLanguage === "ar"
-                  ? "اختيار اسم المعلم"
+                  ? "اختر اسم المعلم"
                   : "Select Teaching Staff Name"
               }
             >
@@ -220,7 +233,8 @@ const AdminAddCourse = () => {
             </optgroup>
           </Form.Select>
           <button className="btn-login mx-auto mt-3">
-            {dataLanguage === "ar" ? "إضافة المادة" : "Add Course"}
+            {" "}
+            {dataLanguage === "ar" ? "تحديث المادة" : "Update Course"}
           </button>
         </Col>
       </form>
@@ -228,4 +242,4 @@ const AdminAddCourse = () => {
   );
 };
 
-export default AdminAddCourse;
+export default AdminUpdateCourse;

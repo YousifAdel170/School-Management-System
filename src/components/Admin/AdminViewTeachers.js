@@ -3,11 +3,14 @@ import "./AdminAdmission.css";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addTeacherHeadings } from "../../scripts/config";
+import { useSelector } from "react-redux";
 
 const AdminViewTeachers = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const [teachersData, setTeachersData] = useState([]);
+
+  const dataLanguage = useSelector((state) => state.language);
 
   const fetchTeachersData = async () => {
     try {
@@ -78,7 +81,7 @@ const AdminViewTeachers = () => {
 
   return (
     <div className="table">
-      <h3>Teachers Table</h3>
+      <h3>{dataLanguage === "ar" ? "جدول المعلمين" : "Teachers Table"}</h3>
       <p>
         {error !== "" ? (
           <span className="error">{error}</span>
@@ -91,9 +94,17 @@ const AdminViewTeachers = () => {
           <tr>
             {addTeacherHeadings.length
               ? addTeacherHeadings.map((heading, index) => (
-                  <th key={index}>{heading}</th>
+                  <th key={index}>
+                    {dataLanguage === "ar" ? heading.ar : heading.en}
+                  </th>
                 ))
               : null}
+            {addTeacherHeadings.length ? (
+              <>
+                <th>{dataLanguage === "ar" ? "تحديث" : "Update"}</th>
+                <th>{dataLanguage === "ar" ? "حذف" : "Delete"}</th>
+              </>
+            ) : null}
           </tr>
         </thead>
         <tbody>
@@ -117,7 +128,7 @@ const AdminViewTeachers = () => {
                     className="btn btn-primary"
                     onClick={(e) => handleNavigateUpdate(e, teacher.user_id)}
                   >
-                    Update
+                    {dataLanguage === "ar" ? "تحديث" : "Update"}
                   </button>
                 </td>
                 <td>
@@ -125,7 +136,7 @@ const AdminViewTeachers = () => {
                     className="btn btn-danger"
                     onClick={(e) => handleDelete(e, teacher.user_id)}
                   >
-                    Delete
+                    {dataLanguage === "ar" ? "حذف" : "Delete"}
                   </button>
                 </td>
               </tr>

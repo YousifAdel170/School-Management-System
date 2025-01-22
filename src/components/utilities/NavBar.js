@@ -20,6 +20,7 @@ const NavBar = ({ logout }) => {
   const toggleLanguageFunction = () => {
     dispatchModes(toggleLanguageAction());
   };
+
   const dataLanguage = useSelector((state) => state.language);
   useEffect(() => {
     setLanguage(dataLanguage);
@@ -31,10 +32,30 @@ const NavBar = ({ logout }) => {
   const dataDarkMode = useSelector((state) => state.darkMode);
   useEffect(() => {
     setdarkMode(dataDarkMode);
+    if (dataDarkMode) {
+      // Dark mode styles
+      document.documentElement.style.setProperty("--main-color", "#333");
+      document.documentElement.style.setProperty("--hover-main-color", "black");
+      document.documentElement.style.setProperty(
+        "--main-color-rgb",
+        "51, 51, 51"
+      );
+    } else {
+      // Light mode styles
+      document.documentElement.style.setProperty("--main-color", "#0d6efd");
+      document.documentElement.style.setProperty(
+        "--hover-main-color",
+        "#0056b3"
+      );
+      document.documentElement.style.setProperty(
+        "--main-color-rgb",
+        "13, 110, 253"
+      );
+    }
   }, [dataDarkMode]);
 
   return (
-    <div className={`nav-style w-100 ${darkMode ? "dark-mode" : "light-mode"}`}>
+    <div className={`nav-style w-100 light-mode`}>
       <Container>
         <Row className="pt-2 " style={{ position: "relative" }}>
           <Col xs="2" lg="1">
@@ -49,30 +70,24 @@ const NavBar = ({ logout }) => {
           </Col>
           <Col className="d-flex justify-content-end" xs="6" lg="9">
             {logout ? (
-              <button
-                className={`language-btn ${
-                  darkMode ? "dark-mode" : "light-mode"
-                }`}
-              >
+              <button className={`language-btn light-mode`}>
                 <Link
                   to={"/"}
                   style={{ color: "white", textDecoration: "none" }}
                 >
-                  Logout
+                  {language === "ar" ? "تسجيل الخروج" : "Logout"}
                 </Link>
               </button>
             ) : (
-              <Menu />
+              <Menu language={dataLanguage} />
             )}
           </Col>
 
           <Col xs="2" lg="1" className="d-flex justify-content-center">
             {" "}
             <button
-              // onClick={() => toggleLanguageFunction()}
-              className={`language-btn ${
-                darkMode ? "dark-mode" : "light-mode"
-              } `}
+              onClick={() => toggleLanguageFunction()}
+              className={`language-btn light-mode`}
             >
               {" "}
               {language === "ar" ? "English" : "العربية"}
@@ -81,10 +96,8 @@ const NavBar = ({ logout }) => {
           <Col xs="2" lg="1" className="d-flex justify-content-center">
             {" "}
             <button
-              // onClick={() => toggleDarkModeFunction()}
-              className={`language-btn ${
-                darkMode ? "dark-mode" : "light-mode"
-              } `}
+              onClick={() => toggleDarkModeFunction()}
+              className={`language-btn light-mode`}
             >
               {darkMode ? (
                 <i className="fa-solid fa-moon"></i>

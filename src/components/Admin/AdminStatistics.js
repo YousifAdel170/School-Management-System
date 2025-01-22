@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const AdminStatistics = () => {
   const [subjectCounter, setSubjectCounter] = useState();
   const [studentCounter, setStudentCounter] = useState();
   const [averageStdPerSub, setAverageStdPerSub] = useState();
+  const dataLanguage = useSelector((state) => state.language);
+
   const fetchAdmissionData = async () => {
     try {
       const url =
@@ -43,13 +46,21 @@ const AdminStatistics = () => {
 
   return (
     <div className="table">
-      <h3>Stats Table</h3>
+      <h3>{dataLanguage === "ar" ? "جدول الإحصائيات" : "Stats Table"}</h3>
       <Table striped bordered hover className="text-center">
         <thead>
           <tr>
-            <th>Total Students</th>
-            <th>Total Subjects</th>
-            <th>Average Students Per Subjects</th>
+            <th>
+              {dataLanguage === "ar" ? "إجمالي الطلاب" : "Total Students"}
+            </th>
+            <th>
+              {dataLanguage === "ar" ? "إجمالي المواد" : "Total Subjects"}
+            </th>
+            <th>
+              {dataLanguage === "ar"
+                ? "متوسط الطلاب لكل مادة"
+                : "Average Students Per Subject"}
+            </th>
           </tr>
         </thead>
         <tbody>

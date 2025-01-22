@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./AdminAddStudent.css";
+import { MESSAGE_DELAY, REDIRECTING_DELAY } from "../../scripts/config";
 
 const AdminUpdateStudent = () => {
   const { id } = useParams();
+  const dataLanguage = useSelector((state) => state.language); // Language data from Redux store
 
   const [userID, setUserID] = useState(null);
   const [name, setName] = useState("");
@@ -29,7 +32,6 @@ const AdminUpdateStudent = () => {
   const genderRef = useRef(null);
 
   useEffect(() => {
-    // console.log(id);
     setUserID(id);
     setName(nameRef.current.value);
     setUsername(usernameRef.current.value);
@@ -44,60 +46,89 @@ const AdminUpdateStudent = () => {
   useEffect(() => {
     setTimeout(() => {
       setMsg("");
-    }, 5000);
+    }, MESSAGE_DELAY);
   }, [msg]);
 
-  // handling the chnage of the selection options
   const handleGenderChange = (e) => {
     setGender(e.target.value);
   };
 
-  // Handle Entering Data
   const handelInputChange = (e, type) => {
     switch (type) {
       case "name":
         setError("");
         setName(e.target.value);
-        if (e.target.value === "") setError("Full Name has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "الاسم الكامل فارغ"
+              : "Full Name has left blank"
+          );
         break;
       case "username":
         setError("");
         setUsername(e.target.value);
-        if (e.target.value === "") setError("Username has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "اسم المستخدم فارغ"
+              : "Username has left blank"
+          );
         break;
       case "email":
         setError("");
         setEmail(e.target.value);
-        if (e.target.value === "") setError("Email has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "البريد الإلكتروني فارغ"
+              : "Email has left blank"
+          );
         break;
       case "password":
         setError("");
         setPassword(e.target.value);
-        if (e.target.value === "") setError("Password has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "كلمة المرور فارغة"
+              : "Password has left blank"
+          );
         break;
       case "confirmPass":
         setError("");
         setConfirmationPassword(e.target.value);
         if (e.target.value === "")
-          setError("Confirmation Password has left blank");
+          setError(
+            dataLanguage === "ar"
+              ? "تأكيد كلمة المرور فارغ"
+              : "Confirmation Password has left blank"
+          );
         else if (e.target.value !== password) {
-          setError("Confirmation Password doesn't match with the Password");
+          setError(
+            dataLanguage === "ar"
+              ? "تأكيد كلمة المرور لا يتطابق مع كلمة المرور"
+              : "Confirmation Password doesn't match with the Password"
+          );
         }
         break;
       case "BOD":
         setError("");
         setBOD(e.target.value);
-        if (e.target.value === "") setError("Birthdate has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "تاريخ الميلاد فارغ"
+              : "Birthdate has left blank"
+          );
         break;
       default:
     }
   };
 
   const handleSubmit = async (e) => {
-    // Prevent the default form submission behavior
     e.preventDefault();
 
-    // Check if inputs are not empty
     if (
       email &&
       password &&
@@ -112,7 +143,6 @@ const AdminUpdateStudent = () => {
         const url =
           "http://127.0.0.1/school-managment-system-full/backend/update_student.php";
 
-        // Make the fetch request
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -129,16 +159,20 @@ const AdminUpdateStudent = () => {
           }),
         });
 
-        const responseText = await response.text(); // Log raw response
-        // console.log("Raw Response:", responseText);
+        const responseText = await response.text();
 
-        // Parse JSON safely
         try {
           const data = JSON.parse(responseText);
-          // console.log(data);
           if (data.success) {
-            setMsg("Student Has Been Updated Successfully! Redirecting...");
-            setTimeout(() => navigate("/supervisor/view_students"), 3000);
+            setMsg(
+              dataLanguage === "ar"
+                ? "تم تحديث الطالب بنجاح! جارٍ التحويل..."
+                : "Student Has Been Updated Successfully! Redirecting..."
+            );
+            setTimeout(
+              () => navigate("/supervisor/view_students"),
+              REDIRECTING_DELAY
+            );
           } else {
             setError(data.message);
           }
@@ -147,16 +181,24 @@ const AdminUpdateStudent = () => {
         }
       } catch (error) {}
     } else {
-      setError("All fields are required.");
+      setError(
+        dataLanguage === "ar"
+          ? "جميع الحقول مطلوبة."
+          : "All fields are required."
+      );
     }
   };
 
   return (
     <div style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}>
-      <h3>Update Student</h3>
+      <h3>{dataLanguage === "ar" ? "تحديث الطالب" : "Update Student"}</h3>
       <form onSubmit={handleSubmit} className="add-student">
         <Col sm="12" className="d-flex flex-column">
-          <label className="mx-auto title-login">Update the student</label>
+          <label className="mx-auto title-login">
+            {dataLanguage === "ar"
+              ? "تحديث بيانات الطالب"
+              : "Update the student"}
+          </label>
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -165,7 +207,7 @@ const AdminUpdateStudent = () => {
             )}
           </p>
           <input
-            placeholder="Full Name"
+            placeholder={dataLanguage === "ar" ? "الاسم الكامل" : "Full Name"}
             type="text"
             ref={nameRef}
             className="user-input mb-3 text-center mx-auto"
@@ -174,7 +216,7 @@ const AdminUpdateStudent = () => {
             onChange={(e) => handelInputChange(e, "name")}
           />
           <input
-            placeholder="Username"
+            placeholder={dataLanguage === "ar" ? "اسم المستخدم" : "Username"}
             type="text"
             ref={usernameRef}
             className="user-input mb-3 text-center mx-auto"
@@ -183,7 +225,9 @@ const AdminUpdateStudent = () => {
             onChange={(e) => handelInputChange(e, "username")}
           />
           <input
-            placeholder="Email Address"
+            placeholder={
+              dataLanguage === "ar" ? "البريد الإلكتروني" : "Email Address"
+            }
             type="text"
             ref={emailRef}
             className="user-input mb-3 text-center mx-auto"
@@ -192,7 +236,7 @@ const AdminUpdateStudent = () => {
             onChange={(e) => handelInputChange(e, "email")}
           />
           <input
-            placeholder="Password"
+            placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
             type="password"
             ref={passwordRef}
             className="user-input mb-3 text-center mx-auto"
@@ -201,7 +245,11 @@ const AdminUpdateStudent = () => {
             onChange={(e) => handelInputChange(e, "password")}
           />
           <input
-            placeholder="Password Confirmation"
+            placeholder={
+              dataLanguage === "ar"
+                ? "تأكيد كلمة المرور"
+                : "Password Confirmation"
+            }
             type="password"
             ref={confirmPassRef}
             className="user-input text-center mx-auto mb-3"
@@ -210,7 +258,7 @@ const AdminUpdateStudent = () => {
             onChange={(e) => handelInputChange(e, "confirmPass")}
           />
           <input
-            placeholder="Birthdate"
+            placeholder={dataLanguage === "ar" ? "تاريخ الميلاد" : "Birthdate"}
             type="date"
             ref={BODRef}
             className="user-input mb-3 text-center mx-auto"
@@ -223,12 +271,20 @@ const AdminUpdateStudent = () => {
             onChange={handleGenderChange}
             ref={genderRef}
           >
-            <optgroup label="Select Gender">
-              <option value="1">Male</option>
-              <option value="2">Female</option>
+            <optgroup
+              label={dataLanguage === "ar" ? "حدد الجنس" : "Select Gender"}
+            >
+              <option value="1">
+                {dataLanguage === "ar" ? "ذكر" : "Male"}
+              </option>
+              <option value="2">
+                {dataLanguage === "ar" ? "أنثى" : "Female"}
+              </option>
             </optgroup>
           </Form.Select>
-          <button className="btn-login mx-auto mt-3">Update Student</button>
+          <button className="btn-login mx-auto mt-3">
+            {dataLanguage === "ar" ? "تحديث الطالب" : "Update Student"}
+          </button>
         </Col>
       </form>
     </div>

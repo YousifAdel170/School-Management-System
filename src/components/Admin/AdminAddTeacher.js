@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./AdminAddStudent.css";
+import { useSelector } from "react-redux";
+import { MESSAGE_DELAY, REDIRECTING_DELAY } from "../../scripts/config";
 
 const AdminAddTeacher = () => {
   const [name, setName] = useState("");
@@ -31,6 +33,8 @@ const AdminAddTeacher = () => {
   const addressRef = useRef(null);
   const salaryRef = useRef(null);
 
+  const dataLanguage = useSelector((state) => state.language);
+
   useEffect(() => {
     setName(nameRef.current.value);
     setUsername(usernameRef.current.value);
@@ -48,7 +52,7 @@ const AdminAddTeacher = () => {
   useEffect(() => {
     setTimeout(() => {
       setMsg("");
-    }, 5000);
+    }, MESSAGE_DELAY);
   }, [msg]);
 
   // handling the change of the selection options
@@ -66,61 +70,114 @@ const AdminAddTeacher = () => {
       case "name":
         setError("");
         setName(e.target.value);
-        if (e.target.value === "") setError("Full Name has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "الاسم كامل مفقود"
+              : "Full Name has left blank"
+          );
         break;
       case "username":
         setError("");
         setUsername(e.target.value);
-        if (e.target.value === "") setError("Username has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "اسم المستخدم مفقود"
+              : "Username has left blank"
+          );
         break;
 
       case "email":
         setError("");
         setEmail(e.target.value);
-        if (e.target.value === "") setError("Email has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "البريد الإلكتروني مفقود"
+              : "Email has left blank"
+          );
         break;
 
       case "password":
         setError("");
         setPassword(e.target.value);
-        if (e.target.value === "") setError("Password has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "كلمة المرور مفقودة"
+              : "Password has left blank"
+          );
         break;
 
       case "confirmPass":
         setError("");
         setConfirmationPassword(e.target.value);
         if (e.target.value === "")
-          setError("Confirmation Password has left blank");
+          setError(
+            dataLanguage === "ar"
+              ? "تأكيد كلمة المرور مفقود"
+              : "Confirmation Password has left blank"
+          );
         else if (e.target.value !== password) {
-          setError("Confirmation Password doesn't match with the Password");
+          setError(
+            dataLanguage === "ar"
+              ? "تأكيد كلمة المرور لا يتطابق مع كلمة المرور"
+              : "Confirmation Password doesn't match with the Password"
+          );
         }
         break;
 
       case "BOD":
         setError("");
         setBOD(e.target.value);
-        if (e.target.value === "") setError("Birthdate has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "تاريخ الميلاد مفقود"
+              : "Birthdate has left blank"
+          );
         break;
 
       case "specialization":
         setError("");
         setSpecialization(e.target.value);
-        if (e.target.value === "") setError("Specialization has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "التخصص مفقود"
+              : "Specialization has left blank"
+          );
         break;
 
       case "salary":
         setError("");
         setSalary(e.target.value);
-        if (e.target.value === "") setError("Salary has left blank");
-        else if (e.target.value < 0) setError("Salary Can't Be Negative");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar" ? "الراتب مفقود" : "Salary has left blank"
+          );
+        else if (e.target.value < 0)
+          setError(
+            dataLanguage === "ar"
+              ? "الراتب لا يمكن أن يكون سالباً"
+              : "Salary Can't Be Negative"
+          );
         else if (e.target.value < 1000)
-          setError("Salary Can't Be Less Than 1000");
+          setError(
+            dataLanguage === "ar"
+              ? "الراتب لا يمكن أن يكون أقل من 1000"
+              : "Salary Can't Be Less Than 1000"
+          );
         break;
 
       case "address":
         setError("");
         setAddress(e.target.value);
-        if (e.target.value === "") setError("Address has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar" ? "العنوان مفقود" : "Address has left blank"
+          );
         break;
 
       default:
@@ -177,8 +234,15 @@ const AdminAddTeacher = () => {
           const data = JSON.parse(responseText);
           // console.log(data);
           if (data.success) {
-            setMsg("Teacher Has Been Added Successfully! Redirecting...");
-            setTimeout(() => navigate("/supervisor/view_teachers"), 3000);
+            setMsg(
+              dataLanguage === "ar"
+                ? "تم إضافة المعلم بنجاح! سيتم التوجيه..."
+                : "Teacher Has Been Added Successfully! Redirecting..."
+            );
+            setTimeout(
+              () => navigate("/supervisor/view_teachers"),
+              REDIRECTING_DELAY
+            );
           } else {
             setError(data.message);
           }
@@ -187,7 +251,11 @@ const AdminAddTeacher = () => {
         }
       } catch (error) {}
     } else {
-      setError("All fields are required.");
+      setError(
+        dataLanguage === "ar"
+          ? "جميع الحقول مطلوبة."
+          : "All fields are required."
+      );
     }
   };
 
@@ -196,14 +264,16 @@ const AdminAddTeacher = () => {
       className="add-std"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
-      <h3>Add Teacher</h3>
+      <h3>{dataLanguage === "ar" ? "إضافة معلم" : "Add Teacher"}</h3>
       <form
         onSubmit={handleSubmit}
         className="add-student"
         style={{ margin: "15px auto" }}
       >
         <Col sm="12" className="d-flex flex-column">
-          <label className="mx-auto title-login">Add a New Teacher</label>
+          <label className="mx-auto title-login">
+            {dataLanguage === "ar" ? "إضافة معلم جديد" : "Add a New Teacher"}
+          </label>
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -212,7 +282,7 @@ const AdminAddTeacher = () => {
             )}
           </p>
           <input
-            placeholder="Full Name"
+            placeholder={dataLanguage === "ar" ? "الاسم كامل" : "Full Name"}
             type="text"
             ref={nameRef}
             className="user-input mb-3 text-center mx-auto"
@@ -221,7 +291,7 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "name")}
           />
           <input
-            placeholder="Username"
+            placeholder={dataLanguage === "ar" ? "اسم المستخدم" : "Username"}
             type="text"
             ref={usernameRef}
             className="user-input mb-3 text-center mx-auto"
@@ -230,7 +300,11 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "username")}
           />
           <input
-            placeholder="Email Address"
+            placeholder={
+              dataLanguage === "ar"
+                ? "عنوان البريد الإلكتروني"
+                : "Email Address"
+            }
             type="text"
             ref={emailRef}
             className="user-input mb-3 text-center mx-auto"
@@ -239,7 +313,7 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "email")}
           />
           <input
-            placeholder="Password"
+            placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
             type="password"
             ref={passwordRef}
             className="user-input text-center mx-auto mb-3"
@@ -248,7 +322,11 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "password")}
           />
           <input
-            placeholder="Password Confirmation"
+            placeholder={
+              dataLanguage === "ar"
+                ? "تأكيد كلمة المرور"
+                : "Password Confirmation"
+            }
             type="password"
             ref={confirmPassRef}
             className="user-input text-center mx-auto mb-3"
@@ -257,7 +335,7 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "confirmPass")}
           />
           <input
-            placeholder="Address"
+            placeholder={dataLanguage === "ar" ? "العنوان" : "Address"}
             type="text"
             ref={addressRef}
             className="user-input text-center mx-auto mb-3"
@@ -266,7 +344,7 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "address")}
           />
           <input
-            placeholder="Salary"
+            placeholder={dataLanguage === "ar" ? "الراتب" : "Salary"}
             type="number"
             ref={salaryRef}
             className="user-input text-center mx-auto mb-3"
@@ -275,7 +353,7 @@ const AdminAddTeacher = () => {
             onChange={(e) => handelInputChange(e, "salary")}
           />
           <input
-            placeholder="Birthdate"
+            placeholder={dataLanguage === "ar" ? "تاريخ الميلاد" : "Birthdate"}
             type="date"
             ref={BODRef}
             className="user-input mb-3 text-center mx-auto"
@@ -289,9 +367,15 @@ const AdminAddTeacher = () => {
             ref={genderRef}
             className="mb-3"
           >
-            <optgroup label="Select Gender">
-              <option value="1">Male</option>
-              <option value="2">Female</option>
+            <optgroup
+              label={dataLanguage === "ar" ? "اختار الجنس" : "Select Gender"}
+            >
+              <option value="1">
+                {dataLanguage === "ar" ? "ذكر" : "Male"}
+              </option>
+              <option value="2">
+                {dataLanguage === "ar" ? "أنثى" : "Female"}
+              </option>
             </optgroup>
           </Form.Select>
           <Form.Select
@@ -300,17 +384,41 @@ const AdminAddTeacher = () => {
             onChange={handleSpecializationChange}
             value={specialization}
           >
-            <optgroup label="Select Specialization">
-              <option value="1">Software</option>
-              <option value="2">History</option>
-              <option value="3">Mathematics</option>
-              <option value="4">Physics</option>
-              <option value="5">Biology</option>
-              <option value="6">Computer Science</option>
-              <option value="7">Literature</option>
+            <optgroup
+              label={
+                dataLanguage === "ar" ? "اختار التخصص" : "Select Specialization"
+              }
+            >
+              <option value="1">
+                {dataLanguage === "ar" ? "برمجيات" : "Software"}
+              </option>
+              <option value="2">
+                {dataLanguage === "ar" ? "تاريخ" : "History"}
+              </option>
+              <option value="3">
+                {" "}
+                {dataLanguage === "ar" ? "رياضيات" : "Mathematics"}
+              </option>
+              <option value="4">
+                {dataLanguage === "ar" ? "فيزياء" : "Physics"}
+              </option>
+              <option value="5">
+                {" "}
+                {dataLanguage === "ar" ? "أحياء" : "Biology"}
+              </option>
+              <option value="6">
+                {dataLanguage === "ar" ? "علوم الكمبيوتر" : "Computer Science"}
+              </option>
+              <option value="7">
+                {" "}
+                {dataLanguage === "ar" ? "أدب" : "Literature"}
+              </option>
             </optgroup>
           </Form.Select>
-          <button className="btn-login mx-auto mt-3">Add Teacher</button>
+          <button className="btn-login mx-auto mt-3">
+            {" "}
+            {dataLanguage === "ar" ? "إضافة معلم" : "Add Teacher"}
+          </button>
         </Col>
       </form>
     </div>

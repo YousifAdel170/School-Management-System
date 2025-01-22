@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux"; // Import useSelector to access language state
 import "./AdminAddStudent.css";
+import { MESSAGE_DELAY, REDIRECTING_DELAY } from "../../scripts/config";
 
 const AdminAddStudent = () => {
   const [username, setUsername] = useState("");
@@ -12,14 +14,15 @@ const AdminAddStudent = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
+  const dataLanguage = useSelector((state) => state.language); // Get the language from redux
 
   useEffect(() => {
     setTimeout(function () {
       setMsg("");
-    }, 5000);
+    }, MESSAGE_DELAY);
   }, [msg]);
 
-  // handling the chnage of the selection options
+  // handling the change of the selection options
   const handleGenderChange = (e) => {
     setGender(e.target.value);
   };
@@ -30,22 +33,42 @@ const AdminAddStudent = () => {
       case "username":
         setError("");
         setUsername(e.target.value);
-        if (e.target.value === "") setError("Username has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "اسم المستخدم فارغ"
+              : "Username has left blank"
+          );
         break;
       case "email":
         setError("");
         setEmail(e.target.value);
-        if (e.target.value === "") setError("Email has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "البريد الإلكتروني فارغ"
+              : "Email has left blank"
+          );
         break;
       case "password":
         setError("");
         setPassword(e.target.value);
-        if (e.target.value === "") setError("Password has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "كلمة المرور فارغة"
+              : "Password has left blank"
+          );
         break;
       case "BOD":
         setError("");
         setBOD(e.target.value);
-        if (e.target.value === "") setError("Birthdate has left blank");
+        if (e.target.value === "")
+          setError(
+            dataLanguage === "ar"
+              ? "تاريخ الميلاد فارغ"
+              : "Birthdate has left blank"
+          );
         break;
       default:
     }
@@ -78,8 +101,15 @@ const AdminAddStudent = () => {
           const data = JSON.parse(responseText);
           console.log(data);
           if (data.success) {
-            setMsg("Student Has Been Added Successfully! Redirecting...");
-            setTimeout(() => navigate("/supervisor/add_student"), 3000);
+            setMsg(
+              dataLanguage === "ar"
+                ? "تم إضافة الطالب بنجاح! جاري التحويل..."
+                : "Student Has Been Added Successfully! Redirecting..."
+            );
+            setTimeout(
+              () => navigate("/supervisor/add_student"),
+              REDIRECTING_DELAY
+            );
           } else {
             setError(data.message);
           }
@@ -88,7 +118,11 @@ const AdminAddStudent = () => {
         }
       } catch (error) {}
     } else {
-      setError("All fields are required.");
+      setError(
+        dataLanguage === "ar"
+          ? "جميع الحقول مطلوبة"
+          : "All fields are required."
+      );
     }
   };
 
@@ -97,10 +131,12 @@ const AdminAddStudent = () => {
       className="add-std"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
-      <h3>Add Student</h3>
+      <h3>{dataLanguage === "ar" ? "إضافة طالب" : "Add Student"}</h3>
       <form onSubmit={handleSubmit} className="add-student">
         <Col sm="12" className="d-flex flex-column">
-          <label className="mx-auto title-login">Add A New student</label>
+          <label className="mx-auto title-login">
+            {dataLanguage === "ar" ? "إضافة طالب جديد" : "Add A New Student"}
+          </label>
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -109,7 +145,7 @@ const AdminAddStudent = () => {
             )}
           </p>
           <input
-            placeholder="Username"
+            placeholder={dataLanguage === "ar" ? "اسم المستخدم" : "Username"}
             type="text"
             className="user-input mb-3 text-center mx-auto"
             name="username"
@@ -117,7 +153,9 @@ const AdminAddStudent = () => {
             onChange={(e) => handelInputChange(e, "username")}
           />
           <input
-            placeholder="Email Address"
+            placeholder={
+              dataLanguage === "ar" ? "البريد الإلكتروني" : "Email Address"
+            }
             type="text"
             className="user-input mb-3 text-center mx-auto"
             name="email"
@@ -125,7 +163,7 @@ const AdminAddStudent = () => {
             onChange={(e) => handelInputChange(e, "email")}
           />
           <input
-            placeholder="Password"
+            placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
             type="password"
             className="user-input text-center mx-auto"
             value={password}
@@ -133,7 +171,7 @@ const AdminAddStudent = () => {
             onChange={(e) => handelInputChange(e, "password")}
           />
           <input
-            placeholder="Birthdate"
+            placeholder={dataLanguage === "ar" ? "تاريخ الميلاد" : "Birthdate"}
             type="date"
             className="user-input my-3 text-center mx-auto"
             name="BOD"
@@ -141,12 +179,20 @@ const AdminAddStudent = () => {
             onChange={(e) => handelInputChange(e, "BOD")}
           />
           <Form.Select name="gender" onChange={handleGenderChange}>
-            <optgroup label="Select Gender">
-              <option value="1">Male</option>
-              <option value="2">Female</option>
+            <optgroup
+              label={dataLanguage === "ar" ? "اختر الجنس" : "Select Gender"}
+            >
+              <option value="1">
+                {dataLanguage === "ar" ? "ذكر" : "Male"}
+              </option>
+              <option value="2">
+                {dataLanguage === "ar" ? "أنثى" : "Female"}
+              </option>
             </optgroup>
           </Form.Select>
-          <button className="btn-login mx-auto mt-4">Add Student</button>
+          <button className="btn-login mx-auto mt-4">
+            {dataLanguage === "ar" ? "إضافة طالب" : "Add Student"}
+          </button>
         </Col>
       </form>
     </div>

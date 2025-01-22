@@ -11,9 +11,11 @@ const ProtectedRoute = ({ allowedRoles, userTypeRequired }) => {
 
   if (userType !== userTypeRequired) {
     if (roleID === "2") {
-      if (userType === "teacher") return <Navigate to={"/teacher"} />;
-      else if (userType === "supervisor")
-        return <Navigate to={"/supervisor"} />;
+      if (!allowedRoles.includes(userType)) return <Navigate to={"/login"} />;
+
+      // if (userType === "teacher") return <Navigate to={"/teacher"} />;
+      // else if (userType === "supervisor")
+      //   return <Navigate to={"/supervisor"} />;
     }
   }
 

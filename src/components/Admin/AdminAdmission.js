@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./AdminAdmission.css";
 import { Table } from "react-bootstrap";
 import { admissionHeadings } from "../../scripts/config";
+import { useSelector } from "react-redux";
 
 const AdminAdmission = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const [admissionData, setAdmissionData] = useState([]);
+  const dataLanguage = useSelector((state) => state.language);
 
   const fetchAdmissionData = async () => {
     try {
@@ -62,7 +64,7 @@ const AdminAdmission = () => {
 
   return (
     <div className="table">
-      <h3>Admission Table</h3>
+      <h3>{dataLanguage === "ar" ? "جدول القبول" : "Admission Table"}</h3>
       <p>
         {error !== "" ? (
           <span className="error">{error}</span>
@@ -75,7 +77,9 @@ const AdminAdmission = () => {
           <tr>
             {admissionHeadings.length
               ? admissionHeadings.map((heading, index) => (
-                  <th key={index}>{heading}</th>
+                  <th key={index}>
+                    {dataLanguage === "ar" ? heading.ar : heading.en}
+                  </th>
                 ))
               : null}
           </tr>

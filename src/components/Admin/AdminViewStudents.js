@@ -3,11 +3,13 @@ import "./AdminAdmission.css";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { addStudentHeadings } from "../../scripts/config";
+import { useSelector } from "react-redux";
 
 const AdminViewStudents = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
   const [studentsData, setStudentsData] = useState([]);
+  const dataLanguage = useSelector((state) => state.language);
 
   const fetchStudentsData = async () => {
     try {
@@ -91,9 +93,17 @@ const AdminViewStudents = () => {
           <tr>
             {addStudentHeadings.length
               ? addStudentHeadings.map((heading, index) => (
-                  <th key={index}>{heading}</th>
+                  <th key={index}>
+                    {dataLanguage === "ar" ? heading.ar : heading.en}
+                  </th>
                 ))
               : null}
+            {addStudentHeadings.length ? (
+              <>
+                <th>{dataLanguage === "ar" ? "تحديث" : "Update"}</th>
+                <th>{dataLanguage === "ar" ? "حذف" : "Delete"}</th>
+              </>
+            ) : null}
           </tr>
         </thead>
         <tbody>
@@ -114,7 +124,7 @@ const AdminViewStudents = () => {
                     className="btn btn-primary"
                     onClick={(e) => handleNavigateUpdate(e, student.user_id)}
                   >
-                    Update
+                    {dataLanguage === "ar" ? "تحديث" : "Update"}
                   </button>
                 </td>
                 <td>
@@ -122,7 +132,7 @@ const AdminViewStudents = () => {
                     className="btn btn-danger"
                     onClick={(e) => handleDelete(e, student.user_id)}
                   >
-                    Delete
+                    {dataLanguage === "ar" ? "حذف" : "Delete"}
                   </button>
                 </td>
               </tr>

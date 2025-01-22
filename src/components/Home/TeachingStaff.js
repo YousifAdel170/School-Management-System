@@ -1,21 +1,37 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import "./TeachingStaff.css";
+import { useSelector } from "react-redux"; // Import useSelector to get language from Redux
 import { Link } from "react-router-dom";
 import male from "../../assets/imgs/male.jpg";
 import female from "../../assets/imgs/female.png";
+import "./TeachingStaff.css";
+
 const TeachingStaff = () => {
+  const language = useSelector((state) => state.language); // Get language from the Redux store
+
   const icons = ["fab fa-facebook-f", "fab fa-twitter", "fab fa-instagram"];
-  const instructors = [
-    { name: "Ahmed Ali", subject: "Arabic", gender: male },
-    { name: "Mona Mohamed", subject: "Computer", gender: female },
-    { name: "Mohab Mostafa", subject: "Science", gender: male },
-    { name: "Fatma Ahmed", subject: "English", gender: female },
-  ];
+
+  const instructors =
+    language === "ar"
+      ? [
+          { name: "أحمد علي", subject: "العربية", gender: male },
+          { name: "مروة محمد", subject: "الحاسوب", gender: female },
+          { name: "محمد مصطفى", subject: "العلوم", gender: male },
+          { name: "فاطمة أحمد", subject: "الإنجليزية", gender: female },
+        ]
+      : [
+          { name: "Ahmed Ali", subject: "Arabic", gender: male },
+          { name: "Mona Mohamed", subject: "Computer", gender: female },
+          { name: "Mohab Mostafa", subject: "Science", gender: male },
+          { name: "Fatma Ahmed", subject: "English", gender: female },
+        ]; // Adjust instructor details based on the selected language
+
   return (
     <Container className="teaching-staff" id="teaching-staff">
       <Row className="text-center">
-        <h2 className="mb-5">Expert Instructors</h2>
+        <h2 className="mb-5">
+          {language === "ar" ? "المعلمين الخبراء" : "Expert Instructors"}
+        </h2>
       </Row>
       <Row className="gx-4 row-staff">
         {instructors.length

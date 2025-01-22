@@ -3,9 +3,11 @@ import NavBar from "../components/utilities/NavBar";
 import Aside from "../components/utilities/Aside";
 import { teacherLists } from "../scripts/config";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const TeacherPage = () => {
-  const heading = "Teacher";
+  const dataLanguage = useSelector((state) => state.language);
+  const heading = dataLanguage === "ar" ? "المعلم" : "Teacher";
   return (
     <div style={{ flex: "1", display: "flex", flexDirection: "column" }}>
       <NavBar logout={1} />

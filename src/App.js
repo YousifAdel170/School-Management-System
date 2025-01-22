@@ -4,7 +4,6 @@ import LoginPage from "./Pages/Auth/LoginPage";
 import RegisterPage from "./Pages/Auth/RegisterPage";
 import Footer from "./components/utilities/Footer";
 import ParentPage from "./Pages/ParentPage";
-import ContactPage from "./Pages/ContactPage";
 import StudentPage from "./Pages/StudentPage";
 import TeacherPage from "./Pages/TeacherPage";
 import SupervisorPage from "./Pages/SupervisorPage";
@@ -27,24 +26,25 @@ import TeacherViewCourses from "./components/Teacher/TeacherViewCourses";
 import TeacherViewTeachers from "./components/Teacher/TeacherViewTeachers";
 import TeacherViewStudents from "./components/Teacher/TeacherViewStudents";
 import AdminUpdateTeacher from "./components/Admin/AdminUpdateTeacher";
+import AdminUpdateCourse from "./components/Admin/AdminUpdateCourse";
 
 function App() {
   useLanguageDirection();
 
   return (
+    // <I18nextProvider i18n={i18n}>
     <div className="app">
       <Routes>
         {/* Public Routes */}
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/contact" element={<ContactPage />} />
 
         {/* Supervisor Routes */}
         <Route
           element={
             <ProtectedRoute
-              allowedRoles={["2"]}
+              allowedRoles={["2", "supervisor"]}
               userTypeRequired="supervisor"
             />
           }
@@ -84,13 +84,20 @@ function App() {
               path="/supervisor/update_teacher/:id"
               element={<AdminUpdateTeacher />}
             />
+            <Route
+              path="/supervisor/update_subject/:id"
+              element={<AdminUpdateCourse />}
+            />
           </Route>
         </Route>
 
         {/* Teachers Routes */}
         <Route
           element={
-            <ProtectedRoute allowedRoles={["2"]} userTypeRequired="teacher" />
+            <ProtectedRoute
+              allowedRoles={["2", "teacher"]}
+              userTypeRequired="teacher"
+            />
           }
         >
           <Route path="/teacher" element={<TeacherPage />}>
@@ -121,7 +128,7 @@ function App() {
               element={<StudentViewCourses />}
             />
             <Route
-              path="/student/view_teacher"
+              path="/student/view_teachers"
               element={<StudentViewTeachers />}
             />
           </Route>
@@ -148,6 +155,7 @@ function App() {
 
       <Footer />
     </div>
+    // </I18nextProvider>
   );
 }
 

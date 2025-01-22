@@ -7,12 +7,19 @@ import { useSelector } from "react-redux";
 
 const About = () => {
   const dataDarkMode = useSelector((state) => state.darkMode);
+  const dataLanguage = useSelector((state) => state.language);
   const aboutData = {
-    heading: "Welcome to Our School!",
+    heading: `${
+      dataLanguage === "ar"
+        ? "مرحبًا بكم في مدرستنا!"
+        : "Welcome to Our School!"
+    }`,
     paragraph: `
-    Our top-tier curriculum ensures students reach their full academic
-    potential with expert guidance. Our teachers are highly qualified,
-    and our educational programs are designed to challenge students
+    ${
+      dataLanguage === "ar"
+        ? `مناهجنا التعليمية ذات المستوى العالي تضمن للطلاب تحقيق كامل إمكاناتهم الأكاديمية تحت إشراف الخبراء. يتمتع معلمونا بمؤهلات عالية، وبرامجنا التعليمية مصممة لتحدي الطلاب وتعزيز شغفهم بالتعلم. نركز على التفكير النقدي، ومهارات حل المشكلات، والفهم العميق للمواد التي يتم تدريسها. يحصل كل طالب على اهتمام شخصي لمساعدته على التفوق في رحلته الأكاديمية.
+بالإضافة إلى معاييرنا الأكاديمية الصارمة، نقدم مجموعة متنوعة من الفرص الإثرائية، بما في ذلك دورات الشرف، والدورات المتقدمة، وبرامج الدراسة المستقلة التي تتيح للطلاب متابعة اهتمامات متخصصة. التزام مدرستنا بالتميز الأكاديمي واضح في معدلات التخرج المرتفعة بشكل مستمر ونجاح طلابنا في التقييمات الوطنية والدولية.`
+        : `Our top-tier curriculum ensures students reach their full academic potential with expert guidance. Our teachers are highly qualified, and our educational programs are designed to challenge students
     while fostering a passion for learning. We emphasize critical
     thinking, problem-solving skills, and a deep understanding of the
     subjects taught. Every student is given personalized attention to
@@ -22,24 +29,36 @@ const About = () => {
     independent study programs that allow students to pursue specialized
     interests. Our school’s commitment to academic excellence is evident
     in our consistently high graduation rates and the success of our
-    students in national and international assessments.
+    students in national and international assessments.`
+    }  
   `,
     details: [
-      { icon: "fa fa-arrow-right", text: "Teaching Staff" },
-      { icon: "fa fa-arrow-right", text: "Classes" },
-      { icon: "fa fa-arrow-right", text: "Subjects" },
+      {
+        icon: `fa ${
+          dataLanguage === "ar" ? "fa-arrow-left" : "fa-arrow-right"
+        }`,
+        text: `${dataLanguage === "ar" ? "هيئة التدريس" : "Teaching Staff"}`,
+      },
+      {
+        icon: `fa ${
+          dataLanguage === "ar" ? "fa-arrow-left" : "fa-arrow-right"
+        }`,
+        text: `${dataLanguage === "ar" ? "الفصول الدراسية" : "Classes"}`,
+      },
+      {
+        icon: `fa ${
+          dataLanguage === "ar" ? "fa-arrow-left" : "fa-arrow-right"
+        }`,
+        text: `${dataLanguage === "ar" ? "المواد الدراسية" : "Subjects"}`,
+      },
     ],
   };
   return (
     <Container className="about" id="#about">
       {" "}
       <Row className="text-center heading">
-        <h2
-          className={`mb-5 ${
-            dataDarkMode ? "main-dark-color" : "main-blue-color "
-          }`}
-        >
-          About Us
+        <h2 className={`mb-5`} style={{ color: "var(--main-color)" }}>
+          {dataLanguage === "ar" ? "من نحن" : "About Us"}
         </h2>
       </Row>
       <Row>
@@ -61,7 +80,12 @@ const About = () => {
               ? aboutData.details.map((detail, index) => (
                   <Col xs="6" key={index}>
                     <p className="mb-0">
-                      <i className={`${detail.icon} text-primary me-2`}></i>
+                      <i
+                        className={`${detail.icon} ${
+                          dataLanguage === "ar" ? "ms-2" : "me-2"
+                        }`}
+                        style={{ color: "var(--main-color)" }}
+                      ></i>
                       {detail.text}
                     </p>
                   </Col>
@@ -75,7 +99,7 @@ const About = () => {
             }`}
             href="#staff"
           >
-            Read More
+            {dataLanguage === "ar" ? "اقرأ المزيد" : "Read More"}
           </Link>
         </Col>
       </Row>
