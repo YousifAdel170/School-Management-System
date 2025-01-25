@@ -3,6 +3,8 @@ import { Col, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./AdminAddStudent.css";
+import { ToastContainer } from "react-toastify";
+
 import {
   MESSAGE_DELAY,
   POST_METHOD,
@@ -214,6 +216,7 @@ const AdminUpdateStudent = () => {
             {dataLanguage === "ar" ? "تحديث الطالب" : "Update Student"}
           </button>
         </Col>
+        <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );

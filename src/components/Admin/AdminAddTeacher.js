@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
 import "./AdminAddStudent.css";
 import { useSelector } from "react-redux";
 import {
@@ -293,6 +295,7 @@ const AdminAddTeacher = () => {
             {dataLanguage === "ar" ? "إضافة معلم" : "Add Teacher"}
           </button>
         </Col>
+        <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );

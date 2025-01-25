@@ -143,8 +143,8 @@ export const addSubjectsHeadings = [
   { en: "Teaching Staff ID", ar: "رقم الهيئة التدريسية" },
 ];
 
-export const MESSAGE_DELAY = 1000;
-export const REDIRECTING_DELAY = 1000;
+export const MESSAGE_DELAY = 2000;
+export const REDIRECTING_DELAY = 2000;
 
 export const STUDENT_TYPE = "Student";
 export const TEACHER_TYPE = "Teacher";
@@ -152,6 +152,14 @@ export const SUPERVISOR_TYPE = "Supervisor";
 export const PARENT_TYPE = "Parent";
 export const SUBJECT_TYPE = "Subject";
 
+// Types
+export const UPDATE_TYPE = "Update";
+export const DELETE_TYPE = "Delete";
+export const VIEW_TYPE = "View";
+export const ADD_TYPE = "Add";
+export const AUTH_TYPE = "Auth";
+
+// Method Types
 export const GET_METHOD = "GET";
 export const POST_METHOD = "POST";
 
@@ -165,35 +173,34 @@ export const UPDATE_TEACHER_TYPE = "update_teacher";
 export const UPDATE_STUDENT_TYPE = "update_student";
 export const UPDATE_SUBJECT_TYPE = "update_subject";
 
+/*                            URLs For Backend                                 */
 export const URL_BASE = "http://127.0.0.1/school-managment-system-full/backend";
-
-// Get Data URLs
-export const URL_GET_ADMISSION = `${URL_BASE}/get_admission.php`;
-export const URL_GET_STATISTICS = `${URL_BASE}/stats.php`;
-export const URL_GET_STUDENTS = `${URL_BASE}/get_all_students.php`;
-export const URL_GET_TEACHER = `${URL_BASE}/get_all_teachers.php`;
-export const URL_GET_SUBJECTS = `${URL_BASE}/get_all_subjects.php`;
-
-export const URL_GET_TEACHER_IDS = `${URL_BASE}/addCourse/view_teachers.php`;
+// View Data URLs
+export const URL_GET_ADMISSION = `${URL_BASE}/${VIEW_TYPE}/get_admission.php`;
+export const URL_GET_STATISTICS = `${URL_BASE}/${VIEW_TYPE}/stats.php`;
+export const URL_GET_STUDENTS = `${URL_BASE}/${VIEW_TYPE}/get_all_students.php`;
+export const URL_GET_TEACHER = `${URL_BASE}/${VIEW_TYPE}/get_all_teachers.php`;
+export const URL_GET_SUBJECTS = `${URL_BASE}/${VIEW_TYPE}/get_all_subjects.php`;
+export const URL_GET_TEACHER_IDS = `${URL_BASE}/${VIEW_TYPE}/view_teachers.php`;
 
 // Delete Data URLs
-export const URL_DELELE_STUDENT = `${URL_BASE}/delete_student.php?id=`;
-export const URL_DELELE_SUBJECT = `${URL_BASE}/delete_subject.php?id=`;
-export const URL_DELELE_TEACHER = `${URL_BASE}/delete_teacher.php?id=`;
+export const URL_DELELE_STUDENT = `${URL_BASE}/${DELETE_TYPE}/delete_student.php?id=`;
+export const URL_DELELE_SUBJECT = `${URL_BASE}/${DELETE_TYPE}/delete_subject.php?id=`;
+export const URL_DELELE_TEACHER = `${URL_BASE}/${DELETE_TYPE}/delete_teacher.php?id=`;
 
 // Add Data URLs
-export const URL_ADD_STUDENT = `${URL_BASE}/add_student.php`;
-export const URL_ADD_TEACHER = `${URL_BASE}/add_teacher.php`;
-export const URL_ADD_SUBJECT = `${URL_BASE}/addCourse/add_course.php`;
+export const URL_ADD_STUDENT = `${URL_BASE}/${ADD_TYPE}/add_student.php`;
+export const URL_ADD_TEACHER = `${URL_BASE}/${ADD_TYPE}/add_teacher.php`;
+export const URL_ADD_SUBJECT = `${URL_BASE}/${ADD_TYPE}/add_course.php`;
 
 // Update Data URLs
-export const URL_UPDATE_STUDENT = `${URL_BASE}/update_student.php`;
-export const URL_UPDATE_TEACHER = `${URL_BASE}/update_teacher.php`;
-export const URL_UPDATE_SUBJECT = `${URL_BASE}/update_subject.php`;
+export const URL_UPDATE_STUDENT = `${URL_BASE}/${UPDATE_TYPE}/update_student.php`;
+export const URL_UPDATE_TEACHER = `${URL_BASE}/${UPDATE_TYPE}/update_teacher.php`;
+export const URL_UPDATE_SUBJECT = `${URL_BASE}/${UPDATE_TYPE}/update_subject.php`;
 
 // Authentication URLs
-export const URL_AUT_LOGIN = `${URL_BASE}/login_check.php`;
-export const URL_AUT_REGISTER = `${URL_BASE}/register_check.php`;
+export const URL_AUT_LOGIN = `${URL_BASE}/${AUTH_TYPE}/login_check.php`;
+export const URL_AUT_REGISTER = `${URL_BASE}/${AUTH_TYPE}/register_check.php`;
 
 export const TYPE_AUTH_LOGIN = "login";
 export const TYPE_AUT_REGISTER = "register";
@@ -203,3 +210,16 @@ export const STUDENT_ROLE = "student";
 export const SUPERVISOR_ROLE = "supervisor";
 export const TEACHER_ROLE = "teacher";
 export const PARENT_ROLE = "parent";
+
+// Configuration for Toastify
+export const TOASTIFY_ERROR = "Error";
+export const TOASTIFY_SUCCESS = "Success";
+export const TOASTIFY_OPERATION_SUCCESS = "Operation completed successfully.";
+export const TOASTIFY_MISSING_FIELDS = "All fields are required.";
+export const TOASTIFY_ERROR_REQUEST =
+  "An error occurred while submitting the request.";
+export const TOASTIFY_FAILED_DELETED = "Data failed to delete.";
+export const TOASTIFY_SUCCESS_DELETED = "Data deleted successfully.";
+
+export const TOASTIFY_REGISTERATION_SUCCESS = "Registration successful.";
+export const TOASTIFY_LOGIN_SUCCESS = "Login successful.";

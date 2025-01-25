@@ -32,7 +32,6 @@ function App() {
   useLanguageDirection();
 
   return (
-    // <I18nextProvider i18n={i18n}>
     <div className="app">
       <Routes>
         {/* Public Routes */}
@@ -155,7 +154,6 @@ function App() {
 
       <Footer />
     </div>
-    // </I18nextProvider>
   );
 }
 

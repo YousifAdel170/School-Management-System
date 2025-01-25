@@ -2,12 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Col, Container, Row } from "react-bootstrap";
 
+import "./Footer.css";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const dataLanguage = useSelector((state) => state.language);
 
   return (
-    <div className={`footer-background footer pt-4 light-mode`}>
+    <div className={`footer-background footer pt-4 main-mode`}>
       <Container>
         <Row className="d-flex justify-content-between align-items-center">
           <Col

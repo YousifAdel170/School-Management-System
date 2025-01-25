@@ -1,8 +1,17 @@
 import {
   REDIRECTING_DELAY,
+  TOASTIFY_ERROR,
+  TOASTIFY_ERROR_REQUEST,
+  TOASTIFY_LOGIN_SUCCESS,
+  TOASTIFY_MISSING_FIELDS,
+  TOASTIFY_OPERATION_SUCCESS,
+  TOASTIFY_REGISTERATION_SUCCESS,
+  TOASTIFY_SUCCESS,
   TYPE_AUT_REGISTER,
   TYPE_AUTH_LOGIN,
 } from "../scripts/config";
+
+import { toast } from "react-toastify";
 
 export const handleSubmit = async (
   e,
@@ -16,6 +25,11 @@ export const handleSubmit = async (
   type,
   role
 ) => {
+  const notify = (message, type) => {
+    if (type === "Error") toast.error(message);
+    else if (type === "Success") toast.success(message);
+  };
+
   // Prevent the default form submission behavior
   e.preventDefault();
 
@@ -46,11 +60,13 @@ export const handleSubmit = async (
             localStorage.setItem("roleID", data.roleID);
             if (data.ID === "1") localStorage.setItem("userType", "supervisor");
             else localStorage.setItem("userType", "teacher");
+            notify(TOASTIFY_LOGIN_SUCCESS, TOASTIFY_SUCCESS);
             setMsg(
               dataLanguage === "ar"
                 ? "تم تسجيل الدخول بنجاح! جاري التوجيه..."
                 : "Logged in successfully! Redirecting..."
             );
+
             // Redirect after a delay
             setTimeout(() => {
               switch (data.roleID) {
@@ -73,8 +89,10 @@ export const handleSubmit = async (
                 ? "تم التسجيل بنجاح! إعادة التوجيه..."
                 : "Registration successful! Redirecting..."
             );
+            notify(TOASTIFY_REGISTERATION_SUCCESS, TOASTIFY_SUCCESS);
             setTimeout(() => navigate("/login"), 3000);
           } else {
+            notify(TOASTIFY_OPERATION_SUCCESS, TOASTIFY_SUCCESS);
             setMsg(
               dataLanguage === "ar"
                 ? `تمت العملية بنجاح! سيتم إعادة التوجيه...`
@@ -95,10 +113,12 @@ export const handleSubmit = async (
           ? "حدث خطأ أثناء إرسال الطلب."
           : "An error occurred while submitting the request."
       );
+      notify(TOASTIFY_ERROR_REQUEST, TOASTIFY_ERROR);
     }
   } else {
     setError(
       dataLanguage === "ar" ? "جميع الحقول مطلوبة." : "All fields are required."
     );
+    notify(TOASTIFY_MISSING_FIELDS, TOASTIFY_ERROR);
   }
 };

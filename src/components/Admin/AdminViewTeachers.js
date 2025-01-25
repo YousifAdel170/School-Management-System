@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./AdminAdmission.css";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
 import {
   addTeacherHeadings,
   GET_METHOD,
@@ -133,7 +135,8 @@ const AdminViewTeachers = () => {
             </tr>
           )}
         </tbody>
-      </Table>
+      </Table>{" "}
+      <ToastContainer style={{ marginTop: "80px" }} />
     </div>
   );
 };

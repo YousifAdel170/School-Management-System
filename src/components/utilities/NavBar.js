@@ -11,6 +11,8 @@ import {
   toggleLanguageAction,
 } from "../../redux/actions/actions";
 
+import "./NavBar.css";
+
 const NavBar = ({ logout }) => {
   const [language, setLanguage] = useState();
   const [darkMode, setdarkMode] = useState();
@@ -55,22 +57,21 @@ const NavBar = ({ logout }) => {
   }, [dataDarkMode]);
 
   return (
-    <div className={`nav-style w-100 light-mode`}>
+    <div className={`nav-style w-100 main-mode`}>
       <Container>
         <Row className="pt-2 " style={{ position: "relative" }}>
           <Col xs="2" lg="1">
-            {" "}
-            <a href="/">
+            <Link to="/">
               <img
                 className="logo"
                 src={`${darkMode ? dark_logo : logo}`}
                 alt="Logo"
               />
-            </a>
+            </Link>
           </Col>
           <Col className="d-flex justify-content-end" xs="6" lg="9">
             {logout ? (
-              <button className={`language-btn light-mode`}>
+              <button className={`language-btn main-mode`}>
                 <Link
                   to={"/login"}
                   style={{ color: "white", textDecoration: "none" }}
@@ -87,7 +88,7 @@ const NavBar = ({ logout }) => {
             {" "}
             <button
               onClick={() => toggleLanguageFunction()}
-              className={`language-btn light-mode`}
+              className={`language-btn main-mode`}
             >
               {" "}
               {language === "ar" ? "English" : "العربية"}
@@ -97,7 +98,7 @@ const NavBar = ({ logout }) => {
             {" "}
             <button
               onClick={() => toggleDarkModeFunction()}
-              className={`language-btn light-mode`}
+              className={`language-btn main-mode`}
             >
               {darkMode ? (
                 <i className="fa-solid fa-moon"></i>

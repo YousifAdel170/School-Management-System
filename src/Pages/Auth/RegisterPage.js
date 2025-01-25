@@ -3,6 +3,8 @@ import { Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../../components/utilities/NavBar";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+
 import {
   handelInputChange,
   handleSelectChange,
@@ -193,6 +195,7 @@ const RegisterPage = () => {
                 </Link>
               </label>
             </Col>
+            <ToastContainer style={{ marginTop: "80px" }} />
           </form>
         </Row>
       </Container>

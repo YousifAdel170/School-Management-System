@@ -1,0 +1,35 @@
+/* Start Of NavBar */
+.nav-style {
+  height: 90px;
+  width: 1440px;
+}
+.logo {
+  height: 72px;
+  width: 78px;
+}
+.language-btn {
+  position: absolute;
+  transform: translateY(-50%);
+  top: 55%;
+  color: var(--secondary-color);
+  border-width: 1px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  padding: 4px 10px;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.language-btn:hover {
+  background-color: var(--hover-main-color);
+}
+
+/* End Of NavBar */

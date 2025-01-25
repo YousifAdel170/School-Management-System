@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 import "./AdminAddStudent.css";
+
 import {
   MESSAGE_DELAY,
   POST_METHOD,
@@ -292,6 +294,7 @@ const AdminUpdateTeacher = () => {
             {dataLanguage === "ar" ? "تحديث المعلم" : "Update Teacher"}
           </button>
         </Col>
+        <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );

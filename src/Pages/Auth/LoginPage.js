@@ -11,6 +11,7 @@ import {
   URL_AUT_LOGIN,
 } from "../../scripts/config";
 import { handleSubmit } from "../../Logic/handleSubmit";
+import { ToastContainer } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -111,6 +112,7 @@ const LoginPage = () => {
                 </Link>
               </label>
             </Col>
+            <ToastContainer style={{ marginTop: "80px" }} />
           </form>
         </Row>
       </Container>
