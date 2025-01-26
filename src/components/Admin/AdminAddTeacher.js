@@ -1,10 +1,26 @@
+// Importing necessary React hooks
 import React, { useEffect, useRef, useState } from "react";
+
+// Importing Bootstrap components for form and layout
 import { Col, Form } from "react-bootstrap";
+
+// Importing useNavigate hook to navigate to different routes
 import { useNavigate } from "react-router-dom";
+
+// Importing useSelector hook to access Redux store
+import { useSelector } from "react-redux";
+
+// Library for displaying toast notifications
 import { ToastContainer } from "react-toastify";
 
-import "./AdminAddStudent.css";
-import { useSelector } from "react-redux";
+// Importing custom functions to handle form input changes, handle submit
+import {
+  handelInputChange,
+  handleSelectChange,
+} from "../../Logic/handleChange";
+import { handleSubmit } from "../../Logic/handleSubmit";
+
+// Importing configuration values
 import {
   MESSAGE_DELAY,
   POST_METHOD,
@@ -12,13 +28,16 @@ import {
   URL_ADD_TEACHER,
   VIEW_TEACHER_TYPE,
 } from "../../scripts/config";
-import {
-  handelInputChange,
-  handleSelectChange,
-} from "../../Logic/handleChange";
-import { handleSubmit } from "../../Logic/handleSubmit";
 
+// Importing custom CSS for styling
+import "./AdminAddStudent.css";
+
+/**
+ * AdminAddTeacher component renders a form for adding a new teacher in the admin panel.
+ * It handles form data, validation, API requests, and displays success/error messages.
+ */
 const AdminAddTeacher = () => {
+  // State hooks to manage form data and error messages
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -32,9 +51,13 @@ const AdminAddTeacher = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
 
+  // Hook to navigate to other pages after submission
   const navigate = useNavigate();
 
-  // Refs for input Fields
+  // Hook to get the current language from Redux store
+  const dataLanguage = useSelector((state) => state.language);
+
+  // Refs for input fields to directly access DOM elements
   const nameRef = useRef(null);
   const usernameRef = useRef(null);
   const emailRef = useRef(null);
@@ -46,8 +69,7 @@ const AdminAddTeacher = () => {
   const addressRef = useRef(null);
   const salaryRef = useRef(null);
 
-  const dataLanguage = useSelector((state) => state.language);
-
+  // Payload to send the data for the new teacher
   const payloadTeachers = {
     name,
     username,
@@ -60,6 +82,9 @@ const AdminAddTeacher = () => {
     address,
   };
 
+  /**
+   * useEffect hook to initialize form values and set up delayed message reset.
+   */
   useEffect(() => {
     setName(nameRef.current.value);
     setUsername(usernameRef.current.value);
@@ -73,7 +98,9 @@ const AdminAddTeacher = () => {
     setSalary(salaryRef.current.value);
   }, []);
 
-  // Clear the message after 5 seconds
+  /**
+   * useEffect hook to reset the success message after a specified delay.
+   */
   useEffect(() => {
     setTimeout(() => {
       setMsg("");
@@ -85,7 +112,10 @@ const AdminAddTeacher = () => {
       className="add-std"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
+      {/* Header section with dynamic language-based title */}
       <h3>{dataLanguage === "ar" ? "إضافة معلم" : "Add Teacher"}</h3>
+
+      {/* Form to add a new teacher, handling form submission */}
       <form
         onSubmit={(e) =>
           handleSubmit(
@@ -105,9 +135,12 @@ const AdminAddTeacher = () => {
         style={{ margin: "15px auto" }}
       >
         <Col sm="12" className="d-flex flex-column">
+          {/* Form title */}
           <label className="mx-auto title-login">
             {dataLanguage === "ar" ? "إضافة معلم جديد" : "Add a New Teacher"}
           </label>
+
+          {/* Displaying error or success message based on form submission status */}
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -115,6 +148,8 @@ const AdminAddTeacher = () => {
               <span className="success">{msg}</span>
             )}
           </p>
+
+          {/* Name input field */}
           <input
             placeholder={dataLanguage === "ar" ? "الاسم كامل" : "Full Name"}
             type="text"
@@ -126,6 +161,8 @@ const AdminAddTeacher = () => {
               handelInputChange(e, "name", setError, setName, dataLanguage)
             }
           />
+
+          {/* Username input field */}
           <input
             placeholder={dataLanguage === "ar" ? "اسم المستخدم" : "Username"}
             type="text"
@@ -143,6 +180,8 @@ const AdminAddTeacher = () => {
               )
             }
           />
+
+          {/* Email input field */}
           <input
             placeholder={
               dataLanguage === "ar"
@@ -158,6 +197,8 @@ const AdminAddTeacher = () => {
               handelInputChange(e, "email", setError, setEmail, dataLanguage)
             }
           />
+
+          {/* Password input field */}
           <input
             placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
             type="password"
@@ -175,6 +216,8 @@ const AdminAddTeacher = () => {
               )
             }
           />
+
+          {/* Confirmation Password input field */}
           <input
             placeholder={
               dataLanguage === "ar"
@@ -197,6 +240,8 @@ const AdminAddTeacher = () => {
               )
             }
           />
+
+          {/* Address input field */}
           <input
             placeholder={dataLanguage === "ar" ? "العنوان" : "Address"}
             type="text"
@@ -214,6 +259,8 @@ const AdminAddTeacher = () => {
               )
             }
           />
+
+          {/* Salary input field */}
           <input
             placeholder={dataLanguage === "ar" ? "الراتب" : "Salary"}
             type="number"
@@ -225,6 +272,8 @@ const AdminAddTeacher = () => {
               handelInputChange(e, "salary", setError, setSalary, dataLanguage)
             }
           />
+
+          {/* Birthdate input field */}
           <input
             placeholder={dataLanguage === "ar" ? "تاريخ الميلاد" : "Birthdate"}
             type="date"
@@ -236,6 +285,8 @@ const AdminAddTeacher = () => {
               handelInputChange(e, "BOD", setError, setBOD, dataLanguage)
             }
           />
+
+          {/* Gender dropdown selection */}
           <Form.Select
             name="gender"
             onChange={(e) => handleSelectChange(e, setGender)}
@@ -253,6 +304,8 @@ const AdminAddTeacher = () => {
               </option>
             </optgroup>
           </Form.Select>
+
+          {/* Specialization dropdown selection */}
           <Form.Select
             name="specialization"
             ref={specializationRef}
@@ -290,15 +343,19 @@ const AdminAddTeacher = () => {
               </option>
             </optgroup>
           </Form.Select>
+
+          {/* Submit button for the form */}
           <button className="btn-login mx-auto mt-3">
-            {" "}
             {dataLanguage === "ar" ? "إضافة معلم" : "Add Teacher"}
           </button>
         </Col>
+
+        {/* Toast container to show success/error messages */}
         <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );
 };
 
+// Exporting the AdminAddTeacher component for use in other parts of the application
 export default AdminAddTeacher;

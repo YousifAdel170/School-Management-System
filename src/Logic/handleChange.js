@@ -1,9 +1,24 @@
-// handling the change of the selection options
+/**
+ * Handle the change of the selection options in a dropdown.
+ *
+ * @param {Object} e - The event object from the select input.
+ * @param {Function} setSelect - Function to update the selected value.
+ */
 export const handleSelectChange = (e, setSelect) => {
+  // Update the selected value with the user's selection
   setSelect(e.target.value);
 };
 
-// Handle Entering Data
+/**
+ * Handle input changes and validate based on the type of input.
+ *
+ * @param {Object} e - The event object from the input field.
+ * @param {string} type - The type of input (e.g., "name", "email", "password").
+ * @param {Function} setError - Function to set error messages.
+ * @param {Function} setData - Function to set the input data value.
+ * @param {string} dataLanguage - The language preference for error messages (e.g., "ar" for Arabic).
+ * @param {string} [password] - The password value for comparison in case of "confirmPass".
+ */
 export const handelInputChange = (
   e,
   type,
@@ -12,9 +27,13 @@ export const handelInputChange = (
   dataLanguage,
   password
 ) => {
+  // Clear previous error messages
   setError("");
+
+  // Update the state with the current input value
   setData(e.target.value);
   switch (type) {
+    // Validate name field
     case "name":
       if (e.target.value === "")
         setError(
@@ -24,6 +43,7 @@ export const handelInputChange = (
         );
       break;
 
+    // Validate username field
     case "username":
       if (e.target.value === "")
         setError(
@@ -33,6 +53,7 @@ export const handelInputChange = (
         );
       break;
 
+    // Validate email field
     case "email":
       if (e.target.value === "")
         setError(
@@ -51,6 +72,7 @@ export const handelInputChange = (
       }
       break;
 
+    // Validate password field
     case "password":
       const testPass = e.target.value;
       if (testPass === "") {
@@ -74,6 +96,7 @@ export const handelInputChange = (
       }
       break;
 
+    // Validate confirmation password
     case "confirmPass":
       //   console.log(password);
       //   console.log(e.target.value);
@@ -98,6 +121,7 @@ export const handelInputChange = (
       }
       break;
 
+    // Validate birthdate field
     case "BOD":
       if (e.target.value === "")
         setError(
@@ -107,6 +131,7 @@ export const handelInputChange = (
         );
       break;
 
+    // Validate salary field
     case "salary":
       if (e.target.value === "")
         setError(
@@ -126,6 +151,7 @@ export const handelInputChange = (
         );
       break;
 
+    // Validate address field
     case "address":
       if (e.target.value === "")
         setError(
@@ -133,6 +159,7 @@ export const handelInputChange = (
         );
       break;
 
+    // Validate subject name field
     case "subjectName":
       if (e.target.value === "")
         setError(
@@ -141,6 +168,8 @@ export const handelInputChange = (
             : "Subject Name has left blank"
         );
       break;
+
+    // Validate subject code field
     case "subjectCode":
       if (e.target.value === "")
         setError(
@@ -149,6 +178,8 @@ export const handelInputChange = (
             : "Subject Code has left blank"
         );
       break;
+
+    // Handle unexpected input types (do nothing)
     default:
   }
 };

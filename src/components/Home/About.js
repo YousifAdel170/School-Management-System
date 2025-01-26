@@ -1,19 +1,37 @@
+// Import React
 import React from "react";
+
+// Import necessary components from React Bootstrap
 import { Col, Row, Container } from "react-bootstrap";
-import about from "../../assets/imgs/about.jpg";
+
+// Import necessary components from React Router Dom
 import { Link } from "react-router-dom";
-import "./About.css";
+
+// Import useSelector to access Redux store
 import { useSelector } from "react-redux";
 
+// Import custom CSS for styling
+import "./About.css";
+
+// Import About image
+import about from "../../assets/imgs/about.jpg";
+
+// The About component
 const About = () => {
+  // Getting dark mode and language settings from Redux store
   const dataDarkMode = useSelector((state) => state.darkMode);
   const dataLanguage = useSelector((state) => state.language);
+
+  // Data for the "About" section, dynamic based on the language
   const aboutData = {
+    // Heading changes based on selected language (Arabic or English)
     heading: `${
       dataLanguage === "ar"
         ? "مرحبًا بكم في مدرستنا!"
         : "Welcome to Our School!"
     }`,
+
+    // Paragraph changes based on selected language (Arabic or English)
     paragraph: `
     ${
       dataLanguage === "ar"
@@ -32,6 +50,8 @@ const About = () => {
     students in national and international assessments.`
     }  
   `,
+
+    // Additional details for the "About" section, such as teaching staff, classes, subjects (Dynamic icon based on language, Text based on language)
     details: [
       {
         icon: `fa ${
@@ -53,16 +73,21 @@ const About = () => {
       },
     ],
   };
+
   return (
+    // Container for the "About" section
     <Container className="about" id="#about">
-      {" "}
+      {/* Heading section */}
       <Row className="text-center heading">
         <h2 className={`mb-5`} style={{ color: "var(--main-color)" }}>
           {dataLanguage === "ar" ? "من نحن" : "About Us"}
         </h2>
       </Row>
+
       <Row>
+        {/* Content section */}
         <Col lg="4">
+          {/* Image  section */}
           <div className="h-100">
             <img
               className="w-100 h-100 mobile-image-hidden"
@@ -72,26 +97,37 @@ const About = () => {
             />
           </div>
         </Col>
+
+        {/* Text content section */}
         <Col lg="8">
+          {/* Heading for the about section */}
           <h3 className="mb-2">{aboutData.heading}</h3>
+
+          {/* Paragraph content */}
           <p className="mb-4">{aboutData.paragraph}</p>
+
+          {/* Additional details section */}
           <Row className="mb-4">
             {aboutData.details.length
               ? aboutData.details.map((detail, index) => (
                   <Col xs="6" key={index}>
                     <p className="mb-0">
+                      {/* Display icon and text */}
                       <i
                         className={`${detail.icon} ${
                           dataLanguage === "ar" ? "ms-2" : "me-2"
                         }`}
                         style={{ color: "var(--main-color)" }}
                       ></i>
+                      {/* Text for the detail */}
                       {detail.text}
                     </p>
                   </Col>
                 ))
               : null}
           </Row>
+
+          {/* Link to another section or page */}
           <Link
             to="/"
             className={`btn btn-primary py-3 px-5 mt-2 ${
@@ -107,4 +143,5 @@ const About = () => {
   );
 };
 
+// Export the About component for use in other parts of the application
 export default About;

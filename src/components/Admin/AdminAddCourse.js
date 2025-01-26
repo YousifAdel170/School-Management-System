@@ -1,10 +1,19 @@
+// Importing necessary React hooks
 import React, { useEffect, useRef, useState } from "react";
+
+// Importing Bootstrap components for form and layout
 import { Col, Form } from "react-bootstrap";
+
+// Importing useNavigate hook to navigate to different routes
 import { useNavigate } from "react-router-dom";
-import "./AdminAddStudent.css";
+
+// Importing useSelector hook to access Redux store
 import { useSelector } from "react-redux";
+
+// Library for displaying toast notifications
 import { ToastContainer } from "react-toastify";
 
+// Importing configuration values
 import {
   GET_METHOD,
   MESSAGE_DELAY,
@@ -14,33 +23,52 @@ import {
   URL_GET_TEACHER_IDS,
   VIEW_SUBJECT_TYPE,
 } from "../../scripts/config";
+
+// Importing custom fetchData function to handle API calls
 import { fetchData } from "../../Logic/fetchData";
+
+// Importing custom functions to handle form input changes, handle submit
 import {
   handelInputChange,
   handleSelectChange,
 } from "../../Logic/handleChange";
 import { handleSubmit } from "../../Logic/handleSubmit";
 
-const AdminAddCourse = () => {
-  const [subjectName, setSubjectName] = useState("");
-  const [subjectCode, setSubjectCode] = useState("");
-  const [teachingstaffID, setTeachingstaffID] = useState("");
+// Importing custom CSS for styling
+import "./AdminAddStudent.css";
 
+/**
+ * AdminAddCourse component renders a form for adding a new subject in the admin panel.
+ * It handles form data, validation, API requests, and displays success/error messages.
+ */
+const AdminAddCourse = () => {
+  // State hooks to manage form data and validation messages
+  const [subjectName, setSubjectName] = useState(""); // State for the subject name
+  const [subjectCode, setSubjectCode] = useState(""); // State for the subject code
+  const [teachingstaffID, setTeachingstaffID] = useState(""); // State for the selected teaching staff ID
+
+  // Payload to be sent with request
   const payloadSubjects = { subjectName, subjectCode, teachingstaffID };
 
+  // Getting the selected language from Redux store
   const dataLanguage = useSelector((state) => state.language);
 
+  // State for error or success message
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
 
+  // State for storing teacher IDs fetched from API
   const [teacherIDs, setTeacherIDs] = useState([]);
+
+  // Hook to navigate to different pages
   const navigate = useNavigate();
 
-  // Refs for input Fields
+  // Refs to manage input fields
   const subjectNameRef = useRef(null);
   const subjectCodeRef = useRef(null);
   const teachingstaffIDRef = useRef(null);
 
+  // useEffect hook to fetch teacher IDs on language change and set input field values
   useEffect(() => {
     fetchData(
       setTeacherIDs,
@@ -53,21 +81,24 @@ const AdminAddCourse = () => {
     setSubjectName(subjectNameRef.current.value);
     setSubjectCode(subjectCodeRef.current.value);
     setTeachingstaffID(teachingstaffIDRef.current.value);
-  }, [dataLanguage]);
+  }, [dataLanguage]); // Re-run when language changes
 
-  // Clear the message after specific time
+  // useEffect hook to clear success message after a certain delay
   useEffect(() => {
     setTimeout(function () {
-      setMsg("");
+      setMsg(""); // Clear the message after the specified delay
     }, MESSAGE_DELAY);
-  }, [msg]);
+  }, [msg]); // Triggered when msg state changes
 
   return (
     <div
       className="add-std"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
+      {/* Display the heading based on the selected language */}
       <h3>{dataLanguage === "ar" ? "إضافة مادة" : "Add Subject"}</h3>
+
+      {/* Form to add a new subject */}
       <form
         onSubmit={(e) =>
           handleSubmit(
@@ -87,9 +118,12 @@ const AdminAddCourse = () => {
         style={{ margin: "15px auto" }}
       >
         <Col sm="12" className="d-flex flex-column">
+          {/* Title for the form */}
           <label className="mx-auto title-login">
             {dataLanguage === "ar" ? "إضافة مادة جديدة" : "Add a New Subject"}
           </label>
+
+          {/* Error or success message */}
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -97,6 +131,8 @@ const AdminAddCourse = () => {
               <span className="success">{msg}</span>
             )}
           </p>
+
+          {/* Input field for subject name */}
           <input
             placeholder={dataLanguage === "ar" ? "اسم المادة" : "Subject Name"}
             type="text"
@@ -114,6 +150,8 @@ const AdminAddCourse = () => {
               )
             }
           />
+
+          {/* Input field for subject code */}
           <input
             placeholder={dataLanguage === "ar" ? "رمز المادة" : "Subject Code"}
             type="text"
@@ -132,6 +170,7 @@ const AdminAddCourse = () => {
             }
           />
 
+          {/* Dropdown for selecting teaching staff */}
           <Form.Select
             name="teachingstaffID"
             onChange={(e) => handleSelectChange(e, setTeachingstaffID)}
@@ -146,6 +185,7 @@ const AdminAddCourse = () => {
                   : "Select Teaching Staff Name"
               }
             >
+              {/* Map through teacher IDs and display options */}
               {teacherIDs.length
                 ? teacherIDs.map((teacherID, index) => (
                     <option key={index} value={`${teacherID.ID}`}>
@@ -155,14 +195,19 @@ const AdminAddCourse = () => {
                 : null}
             </optgroup>
           </Form.Select>
+
+          {/* Submit button */}
           <button className="btn-login mx-auto mt-3">
             {dataLanguage === "ar" ? "إضافة المادة" : "Add Course"}
           </button>
         </Col>
+
+        {/* Toast container for displaying notifications */}
         <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );
 };
 
+// Exporting the AdminAddCourse component for use in other parts of the application
 export default AdminAddCourse;

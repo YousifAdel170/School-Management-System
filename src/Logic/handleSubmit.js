@@ -1,3 +1,4 @@
+// Import necessary constants and utilities
 import {
   REDIRECTING_DELAY,
   TOASTIFY_ERROR,
@@ -11,8 +12,23 @@ import {
   TYPE_AUTH_LOGIN,
 } from "../scripts/config";
 
+// Library for displaying toast notifications
 import { toast } from "react-toastify";
 
+/**
+ * Handles form submission with payload validation, API request, and user redirection.
+ *
+ * @param {Object} e - The event object triggered by the form submission.
+ * @param {Function} setMsg - Function to set success or information messages.
+ * @param {Function} setError - Function to set error messages.
+ * @param {string} dataLanguage - Language preference for messages.
+ * @param {Function} navigate - Function for route navigation.
+ * @param {string} URL - The API endpoint to send the request to.
+ * @param {string} METHOD - The HTTP method for the API request (e.g., "POST", "PUT").
+ * @param {Object} payload - The data to be sent in the request body.
+ * @param {string} type - The type of operation being performed.
+ * @param {string} role - The user role for redirection.
+ */
 export const handleSubmit = async (
   e,
   setMsg,
@@ -25,21 +41,28 @@ export const handleSubmit = async (
   type,
   role
 ) => {
+  /**
+   * Display a notification based on message type.
+   *
+   * @param {string} message - The notification message.
+   * @param {string} type - The type of notification ("Error" or "Success").
+   */
   const notify = (message, type) => {
     if (type === "Error") toast.error(message);
     else if (type === "Success") toast.success(message);
   };
 
-  // Prevent the default form submission behavior
+  // Prevent default form submission behavior
   e.preventDefault();
 
-  // Check if all required fields in the payload are provided
+  // Validate that all fields in the payload are filled
   const areFieldsValid = Object.values(payload).every((field) => field !== "");
   if (areFieldsValid) {
     try {
+      // API request configuration
       const url = URL;
 
-      // Make the fetch request
+      // Make the API request with the specified method, headers, and payload
       const response = await fetch(url, {
         method: METHOD,
         headers: {
@@ -48,18 +71,23 @@ export const handleSubmit = async (
         body: JSON.stringify(payload),
       });
 
+      // Capture and log the raw response text
       const responseText = await response.text();
       console.log("Raw Response:", responseText);
 
-      // Parse JSON safely
+      // Parse the raw response text into JSON
       try {
         const data = JSON.parse(responseText);
         console.log(data);
+        // Handle successful responses based on the operation type
         if (data.success) {
           if (type === TYPE_AUTH_LOGIN) {
+            // Save user role and type in localStorage
             localStorage.setItem("roleID", data.roleID);
             if (data.ID === "1") localStorage.setItem("userType", "supervisor");
             else localStorage.setItem("userType", "teacher");
+
+            // Notify the user and set success message
             notify(TOASTIFY_LOGIN_SUCCESS, TOASTIFY_SUCCESS);
             setMsg(
               dataLanguage === "ar"
@@ -67,7 +95,7 @@ export const handleSubmit = async (
                 : "Logged in successfully! Redirecting..."
             );
 
-            // Redirect after a delay
+            // Redirect the user based on their role
             setTimeout(() => {
               switch (data.roleID) {
                 case "1":
@@ -89,24 +117,33 @@ export const handleSubmit = async (
                 ? "تم التسجيل بنجاح! إعادة التوجيه..."
                 : "Registration successful! Redirecting..."
             );
+            // Notify the user about successful registration
             notify(TOASTIFY_REGISTERATION_SUCCESS, TOASTIFY_SUCCESS);
+
+            // Redirect to the login page after a delay
             setTimeout(() => navigate("/login"), 3000);
           } else {
+            // Notify for other successful operations
             notify(TOASTIFY_OPERATION_SUCCESS, TOASTIFY_SUCCESS);
             setMsg(
               dataLanguage === "ar"
                 ? `تمت العملية بنجاح! سيتم إعادة التوجيه...`
                 : data.message
             );
+
+            // Redirect to a specific page based on role and type
             setTimeout(() => navigate(`/${role}/${type}`), REDIRECTING_DELAY);
           }
         } else {
+          // Handle API errors returned in the response
           setError(data.message);
         }
       } catch (error) {
+        // Log error if JSON parsing fails
         console.error("Failed to parse JSON:", responseText);
       }
     } catch (error) {
+      // Handle fetch operation errors
       console.error("There was an error with the fetch operation:", error);
       setError(
         dataLanguage === "ar"
@@ -116,6 +153,7 @@ export const handleSubmit = async (
       notify(TOASTIFY_ERROR_REQUEST, TOASTIFY_ERROR);
     }
   } else {
+    // Handle missing fields in the payload
     setError(
       dataLanguage === "ar" ? "جميع الحقول مطلوبة." : "All fields are required."
     );

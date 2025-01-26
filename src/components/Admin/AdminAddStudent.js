@@ -1,10 +1,26 @@
+// Importing necessary React hooks
 import React, { useEffect, useRef, useState } from "react";
+
+// Importing Bootstrap components for form and layout
 import { Col, Form } from "react-bootstrap";
+
+// Importing useNavigate hook to navigate to different routes
+import { useNavigate } from "react-router-dom";
+
+// Importing useSelector hook to access Redux store
+import { useSelector } from "react-redux";
+
+// Library for displaying toast notifications
 import { ToastContainer } from "react-toastify";
 
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux"; // Import useSelector to access language state
-import "./AdminAddStudent.css";
+// Importing custom functions to handle form input changes, handle submit
+import {
+  handelInputChange,
+  handleSelectChange,
+} from "../../Logic/handleChange";
+import { handleSubmit } from "../../Logic/handleSubmit";
+
+// Importing configuration values
 import {
   MESSAGE_DELAY,
   POST_METHOD,
@@ -12,27 +28,32 @@ import {
   URL_ADD_STUDENT,
   VIEW_STUDENT_TYPE,
 } from "../../scripts/config";
-import {
-  handelInputChange,
-  handleSelectChange,
-} from "../../Logic/handleChange";
-import { handleSubmit } from "../../Logic/handleSubmit";
 
+// Importing custom CSS for styling
+import "./AdminAddStudent.css";
+
+/**
+ * AdminAddStudent component renders a form for adding a new student in the admin panel.
+ * It handles form data, validation, API requests, and displays success/error messages.
+ */
 const AdminAddStudent = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmationPassword, setConfirmationPassword] = useState("");
-  const [BOD, setBOD] = useState("");
-  const [gender, setGender] = useState("1");
-  const [error, setError] = useState("");
-  const [msg, setMsg] = useState("");
+  // State hooks to manage form data and validation messages
+  const [username, setUsername] = useState(""); // Username of the student
+  const [email, setEmail] = useState(""); // Email address of the student
+  const [password, setPassword] = useState(""); // Password for the student account
+  const [confirmationPassword, setConfirmationPassword] = useState(""); // Password confirmation
+  const [BOD, setBOD] = useState(""); // Date of Birth
+  const [gender, setGender] = useState("1"); // Gender of the student (1 = Male, 2 = Female)
+  const [error, setError] = useState(""); // Stores any error messages
+  const [msg, setMsg] = useState(""); // Stores success messages
 
+  // Hook to navigate between pages
   const navigate = useNavigate();
 
-  const dataLanguage = useSelector((state) => state.language); // Get the language from redux
+  // Hook to get the current language from Redux store
+  const dataLanguage = useSelector((state) => state.language);
 
-  // Refs for input Fields
+  // Refs for input fields to directly access DOM elements
   const usernameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -40,8 +61,12 @@ const AdminAddStudent = () => {
   const BODRef = useRef(null);
   const genderRef = useRef(null);
 
+  // Payload to send the data for the new student
   const payloadStudents = { username, email, password, BOD, gender };
 
+  /**
+   * useEffect hook to initialize form values and set up delayed message reset.
+   */
   useEffect(() => {
     setUsername(usernameRef.current.value);
     setEmail(emailRef.current.value);
@@ -51,6 +76,9 @@ const AdminAddStudent = () => {
     setGender(genderRef.current.value);
   }, []);
 
+  /**
+   * useEffect hook to reset the success message after a specified delay.
+   */
   useEffect(() => {
     setTimeout(function () {
       setMsg("");
@@ -62,7 +90,10 @@ const AdminAddStudent = () => {
       className="add-std"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
+      {/* Header section with dynamic language-based title */}
       <h3>{dataLanguage === "ar" ? "إضافة طالب" : "Add Student"}</h3>
+
+      {/* Form to add a new student, handling form submission */}
       <form
         onSubmit={(e) =>
           handleSubmit(
@@ -80,10 +111,14 @@ const AdminAddStudent = () => {
         }
         className="add-student"
       >
+        {/* Main form column with layout for inputs */}
         <Col sm="12" className="d-flex flex-column">
+          {/* Form title */}
           <label className="mx-auto title-login">
             {dataLanguage === "ar" ? "إضافة طالب جديد" : "Add A New Student"}
           </label>
+
+          {/* Displaying error or success message based on form submission status */}
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -91,6 +126,8 @@ const AdminAddStudent = () => {
               <span className="success">{msg}</span>
             )}
           </p>
+
+          {/* Username input field */}
           <input
             placeholder={dataLanguage === "ar" ? "اسم المستخدم" : "Username"}
             type="text"
@@ -108,6 +145,8 @@ const AdminAddStudent = () => {
               )
             }
           />
+
+          {/* Email input field */}
           <input
             placeholder={
               dataLanguage === "ar" ? "البريد الإلكتروني" : "Email Address"
@@ -121,6 +160,8 @@ const AdminAddStudent = () => {
               handelInputChange(e, "email", setError, setEmail, dataLanguage)
             }
           />
+
+          {/* Password input field */}
           <input
             placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
             type="password"
@@ -138,6 +179,8 @@ const AdminAddStudent = () => {
               )
             }
           />
+
+          {/* Password confirmation input field */}
           <input
             placeholder={
               dataLanguage === "ar"
@@ -160,6 +203,8 @@ const AdminAddStudent = () => {
               )
             }
           />
+
+          {/* Birthdate input field */}
           <input
             placeholder={dataLanguage === "ar" ? "تاريخ الميلاد" : "Birthdate"}
             type="date"
@@ -171,6 +216,8 @@ const AdminAddStudent = () => {
               handelInputChange(e, "BOD", setError, setBOD, dataLanguage)
             }
           />
+
+          {/* Gender dropdown selection */}
           <Form.Select
             name="gender"
             onChange={(e) => handleSelectChange(e, setGender)}
@@ -187,14 +234,19 @@ const AdminAddStudent = () => {
               </option>
             </optgroup>
           </Form.Select>
+
+          {/* Submit button for the form */}
           <button className="btn-login mx-auto mt-4">
             {dataLanguage === "ar" ? "إضافة طالب" : "Add Student"}
           </button>
         </Col>
+
+        {/* Toast container to show success/error messages */}
         <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );
 };
 
+// Exporting the AdminAddStudent component for use in other parts of the application
 export default AdminAddStudent;

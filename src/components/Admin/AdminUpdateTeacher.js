@@ -1,10 +1,31 @@
+// Import necessary hooks and components from React
 import React, { useEffect, useRef, useState } from "react";
-import { Col, Form } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { ToastContainer } from "react-toastify";
-import "./AdminAddStudent.css";
 
+// Import necessary components from React Bootstrap
+import { Col, Form } from "react-bootstrap";
+
+// Import navigation hooks from React Router
+import { useNavigate, useParams } from "react-router-dom";
+
+// Import useSelector to access Redux store
+import { useSelector } from "react-redux";
+
+// Import ToastContainer for displaying notifications
+import { ToastContainer } from "react-toastify";
+
+/**
+ * Import Custom Functions
+ * fetchData is a custom function to fetch data from an API
+ * handleInputChange is a Handle input changes and validate based on the type of input.
+ * handleSelectChange is a Handle the change of the selection options in a dropdown.
+ */
+import {
+  handelInputChange,
+  handleSelectChange,
+} from "../../Logic/handleChange";
+import { handleSubmit } from "../../Logic/handleSubmit";
+
+// Import constants from configuration file
 import {
   MESSAGE_DELAY,
   POST_METHOD,
@@ -12,16 +33,25 @@ import {
   URL_UPDATE_TEACHER,
   VIEW_TEACHER_TYPE,
 } from "../../scripts/config";
-import {
-  handelInputChange,
-  handleSelectChange,
-} from "../../Logic/handleChange";
-import { handleSubmit } from "../../Logic/handleSubmit";
 
+// Import custom CSS for styling
+import "./AdminAddStudent.css";
+
+/**
+ * AdminUpdateTeacher component allows the admin to update a teacher's details.
+ */
 const AdminUpdateTeacher = () => {
+  /**
+   * Retrieve the course ID from the URL using useParams.
+   * This will be used to fetch and update the subject details.
+   * @param {string} id - The ID of the course to be updated.
+   */
   const { id } = useParams();
-  const dataLanguage = useSelector((state) => state.language); // Language selection
 
+  // Access language data from Redux store
+  const dataLanguage = useSelector((state) => state.language);
+
+  // State variables for form data
   const [userID, setUserID] = useState(null);
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -36,6 +66,7 @@ const AdminUpdateTeacher = () => {
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
 
+  // Navigation hook for redirecting after form submission
   const navigate = useNavigate();
 
   // Refs for input Fields
@@ -50,6 +81,7 @@ const AdminUpdateTeacher = () => {
   const addressRef = useRef(null);
   const salaryRef = useRef(null);
 
+  // Effect hook to pre-fill form fields with existing teacher data
   useEffect(() => {
     setUserID(id);
     setName(nameRef.current.value);
@@ -63,13 +95,18 @@ const AdminUpdateTeacher = () => {
     setSalary(salaryRef.current.value);
   }, [id]);
 
-  // Clear the message after 5 seconds
+  /**
+   * useEffect hook to clear the success message after a specified delay.
+   * This helps in clearing out notifications after they are shown.
+   */
   useEffect(() => {
+    // Clear success message after MESSAGE_DELAY milliseconds
     setTimeout(() => {
       setMsg("");
     }, MESSAGE_DELAY);
   }, [msg]);
 
+  // Payload for updating teacher data
   const payloadUpdateTeachers = {
     userID,
     name,
@@ -85,6 +122,7 @@ const AdminUpdateTeacher = () => {
 
   return (
     <div style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}>
+      {/* Render the title of the page */}
       <h3>{dataLanguage === "ar" ? "تحديث المعلم" : "Update Teacher"}</h3>
       <form
         onSubmit={(e) =>
@@ -104,10 +142,15 @@ const AdminUpdateTeacher = () => {
         className="add-student"
         style={{ margin: "15px auto" }}
       >
+        {/* Form columns and input fields */}
+
         <Col sm="12" className="d-flex flex-column">
+          {/* Title for the form */}
           <label className="mx-auto title-login">
             {dataLanguage === "ar" ? "تحديث المعلم" : "Update The Teacher"}
           </label>
+
+          {/* Display error or success message */}
           <p>
             {error !== "" ? (
               <span className="error">{error}</span>
@@ -115,6 +158,8 @@ const AdminUpdateTeacher = () => {
               <span className="success">{msg}</span>
             )}
           </p>
+
+          {/* Name input field */}
           <input
             placeholder={dataLanguage === "ar" ? "الاسم الكامل" : "Full Name"}
             type="text"
@@ -126,6 +171,8 @@ const AdminUpdateTeacher = () => {
               handelInputChange(e, "name", setError, setName, dataLanguage)
             }
           />
+
+          {/* Username input field */}
           <input
             placeholder={dataLanguage === "ar" ? "اسم المستخدم" : "Username"}
             type="text"
@@ -143,6 +190,8 @@ const AdminUpdateTeacher = () => {
               )
             }
           />
+
+          {/* Email input field */}
           <input
             placeholder={
               dataLanguage === "ar" ? "البريد الإلكتروني" : "Email Address"
@@ -156,6 +205,8 @@ const AdminUpdateTeacher = () => {
               handelInputChange(e, "email", setError, setEmail, dataLanguage)
             }
           />
+
+          {/* Password input field */}
           <input
             placeholder={dataLanguage === "ar" ? "كلمة المرور" : "Password"}
             type="password"
@@ -173,6 +224,8 @@ const AdminUpdateTeacher = () => {
               )
             }
           />
+
+          {/* Password Confirmation input field */}
           <input
             placeholder={
               dataLanguage === "ar"
@@ -195,6 +248,8 @@ const AdminUpdateTeacher = () => {
               )
             }
           />
+
+          {/* Address input field */}
           <input
             placeholder={dataLanguage === "ar" ? "العنوان" : "Address"}
             type="text"
@@ -212,6 +267,8 @@ const AdminUpdateTeacher = () => {
               )
             }
           />
+
+          {/* Salary input field */}
           <input
             placeholder={dataLanguage === "ar" ? "الراتب" : "Salary"}
             type="number"
@@ -223,6 +280,8 @@ const AdminUpdateTeacher = () => {
               handelInputChange(e, "salary", setError, setSalary, dataLanguage)
             }
           />
+
+          {/* Birthdate input field */}
           <input
             placeholder={dataLanguage === "ar" ? "تاريخ الميلاد" : "Birthdate"}
             type="date"
@@ -234,6 +293,8 @@ const AdminUpdateTeacher = () => {
               handelInputChange(e, "BOD", setError, setBOD, dataLanguage)
             }
           />
+
+          {/* Gender selection dropdown */}
           <Form.Select
             name="gender"
             onChange={(e) => handleSelectChange(e, setGender)}
@@ -251,6 +312,8 @@ const AdminUpdateTeacher = () => {
               </option>
             </optgroup>
           </Form.Select>
+
+          {/* Specialization selection dropdown */}
           <Form.Select
             name="specialization"
             ref={specializationRef}
@@ -290,14 +353,19 @@ const AdminUpdateTeacher = () => {
               </option>
             </optgroup>
           </Form.Select>
+
+          {/* Submit button for form */}
           <button className="btn-login mx-auto mt-3">
             {dataLanguage === "ar" ? "تحديث المعلم" : "Update Teacher"}
           </button>
         </Col>
+
+        {/* Toast notifications for success or error messages */}
         <ToastContainer style={{ marginTop: "80px" }} />
       </form>
     </div>
   );
 };
 
+// Exporting the component to be used in other parts of the application
 export default AdminUpdateTeacher;
