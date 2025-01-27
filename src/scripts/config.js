@@ -90,11 +90,17 @@ export const admissionHeadings = [
   { en: "Username", ar: "اسم المستخدم" },
   { en: "Email", ar: "البريد الإلكتروني" },
   { en: "Password", ar: "كلمة السر" },
-  { en: "Role ID", ar: "رقم الدور" },
-  { en: "Role Name", ar: "اسم الدور" },
   { en: "Status", ar: "الحالة" },
   { en: "Created At", ar: "تاريخ الإنشاء" },
   { en: "Updated At", ar: "تاريخ التحديث" },
+  { en: "Role ID", ar: "رقم الدور" },
+  { en: "Role Name", ar: "اسم الدور" },
+];
+
+export const statisticsHeadings = [
+  { en: "Total Students", ar: "إجمالي الطلاب" },
+  { en: "Total Subjects", ar: "إجمالي المواد" },
+  { en: "Average Students Per Subject", ar: "متوسط الطلاب لكل مادة" },
 ];
 
 export const addStudentHeadings = [
@@ -107,6 +113,8 @@ export const addStudentHeadings = [
   { en: "Fee ID", ar: "رقم الرسوم" },
   { en: "Class ID", ar: "رقم الفصل" },
   { en: "User ID", ar: "رقم المستخدم" },
+  { en: "Update", ar: "تحديث" },
+  { en: "Delete", ar: "مسح" },
 ];
 
 export const addTeacherHeadings = [
@@ -120,6 +128,17 @@ export const addTeacherHeadings = [
   { en: "Salary", ar: "الراتب" },
   { en: "Supervisor ID", ar: "رقم المشرف" },
   { en: "User ID", ar: "رقم المستخدم" },
+  { en: "Update", ar: "تحديث" },
+  { en: "Delete", ar: "مسح" },
+];
+
+export const addSubjectsHeadings = [
+  { en: "ID", ar: "الرقم" },
+  { en: "Subject Name", ar: "اسم المادة" },
+  { en: "Subject Code", ar: "رمز المادة" },
+  { en: "Teaching Staff ID", ar: "رقم الهيئة التدريسية" },
+  { en: "Update", ar: "تحديث" },
+  { en: "Delete", ar: "مسح" },
 ];
 
 export const viewTeacherHeading = [
@@ -136,7 +155,7 @@ export const viewStudentHeadings = [
   { en: "Class ID", ar: "رقم الفصل" },
 ];
 
-export const addSubjectsHeadings = [
+export const viewSubjectsHeadings = [
   { en: "ID", ar: "الرقم" },
   { en: "Subject Name", ar: "اسم المادة" },
   { en: "Subject Code", ar: "رمز المادة" },
@@ -223,3 +242,46 @@ export const TOASTIFY_SUCCESS_DELETED = "Data deleted successfully.";
 
 export const TOASTIFY_REGISTERATION_SUCCESS = "Registration successful.";
 export const TOASTIFY_LOGIN_SUCCESS = "Login successful.";
+
+// Error messages for form inputs
+export const ERROR_MESSAGES = {
+  "en-US": {
+    name: "Full Name has left blank",
+    username: "Username has left blank",
+    email: "Email has left blank",
+    invalidEmail:
+      "Invalid email format, please make sure it is properly formatted",
+    password: "Password has left blank",
+    passwordFirst: "Please enter the Password first",
+    shortPassword: "Password must be at least 8 characters long",
+    specialCharPassword: "Password must contain at least one special character",
+    confirmPassword: "Confirmation Password has left blank",
+    passwordMismatch: "Confirmation Password doesn't match with the Password",
+    birthdate: "Birthdate has left blank",
+    salary: "Salary has left blank",
+    negativeSalary: "Salary Can't Be Negative",
+    lowSalary: "Salary Can't Be Less Than 1000",
+    address: "Address has left blank",
+    subjectName: "Subject Name has left blank",
+    subjectCode: "Subject Code has left blank",
+  },
+  ar: {
+    name: "الاسم كامل مفقود",
+    username: "اسم المستخدم فارغ",
+    email: "البريد الإلكتروني فارغ",
+    invalidEmail: "البريد الإلكتروني غير صالح، يرجى التأكد من تنسيقه بشكل صحيح",
+    password: "كلمة المرور فارغة",
+    passwordFirst: "أدخل كلمة المرور أولاً",
+    shortPassword: "كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل",
+    specialCharPassword: "كلمة المرور يجب أن تحتوي على حرف خاص واحد على الأقل",
+    confirmPassword: "تأكيد كلمة المرور مفقود",
+    passwordMismatch: "تأكيد كلمة المرور لا يتطابق مع كلمة المرور",
+    birthdate: "تاريخ الميلاد فارغ",
+    salary: "الراتب مفقود",
+    negativeSalary: "الراتب لا يمكن أن يكون سالباً",
+    lowSalary: "الراتب لا يمكن أن يكون أقل من 1000",
+    address: "العنوان مفقود",
+    subjectName: "اسم المادة فارغ",
+    subjectCode: "رمز المادة فارغ",
+  },
+};
