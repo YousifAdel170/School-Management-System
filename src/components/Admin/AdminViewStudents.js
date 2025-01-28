@@ -1,8 +1,5 @@
 // Import necessary hooks and components from React
-import React, { useState } from "react";
-
-// Import navigation hooks from React Router
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 // Import Custom Component
 import View from "../utilities/View";
@@ -23,22 +20,13 @@ import { studentsObject } from "../../scripts/viewData";
  * It also handles language localization for Arabic and English.
  */
 const AdminViewStudents = () => {
-  // State variables for form data
-  const [studentsData, setStudentsData] = useState([]);
-
-  // Hook to navigate between pages
-  const navigate = useNavigate();
-
   return (
     <View
-      data={studentsData}
-      setData={setStudentsData}
       url={URL_GET_STUDENTS}
       object={studentsObject}
       headings={addStudentHeadings}
       admin_delete={1}
       admin_update={1}
-      navigate={navigate}
       type={STUDENT_TYPE}
       update_type={UPDATE_STUDENT_TYPE}
       deleted_url={URL_DELELE_STUDENT}

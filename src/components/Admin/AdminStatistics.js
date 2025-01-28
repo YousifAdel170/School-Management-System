@@ -1,9 +1,11 @@
 // Importing necessary libraries and components
-import React, { useState } from "react";
+import React from "react";
+
+// Importing custom Compontent
+import View from "../utilities/View";
 
 // Importing config values (constants)
 import { statisticsHeadings, URL_GET_STATISTICS } from "../../scripts/config";
-import View from "../utilities/View";
 import { statisticsObject } from "../../scripts/viewData";
 
 /**
@@ -11,13 +13,8 @@ import { statisticsObject } from "../../scripts/viewData";
  * total subjects, and average students per subject. It fetches data from the server and displays it accordingly.
  */
 const AdminStatistics = () => {
-  // State variables to store statistics data and counters
-  const [statsData, setStatsData] = useState([]); // State to store the fetched statistics data
-
   return (
     <View
-      data={statsData}
-      setData={setStatsData}
       url={URL_GET_STATISTICS}
       object={statisticsObject}
       headings={statisticsHeadings}

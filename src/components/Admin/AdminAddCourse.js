@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import Add from "../utilities/Add";
 
 // Import constants from configuration fil
-import { subjectsFormConfig } from "../../scripts/addData";
+import { subjectsUpdateonfig } from "../../scripts/updateData";
 
 /**
  * AdminAddCourse component renders a form for adding a new subject in the admin panel.
@@ -33,7 +33,7 @@ const AdminAddCourse = () => {
 
   return (
     <Add
-      Config={subjectsFormConfig}
+      Config={subjectsUpdateonfig}
       inputsArraySets={inputsArraySets}
       inputsArrayRefs={inputsArrayRefs}
       selectsArraySets={selectsArraySets}

@@ -37,7 +37,7 @@ import {
 } from "../../scripts/config";
 
 // Import custom CSS for styling
-import "./Add.css";
+import "./AddUpdate.css";
 
 /**
  * Add component renders a form for adding a new item in the admin panel.
@@ -98,7 +98,7 @@ const Add = ({
 
   return (
     <div
-      className="add-std"
+      className="add-update"
       style={{ padding: "20px", color: "var(--main-color)", flex: "1" }}
     >
       <h3>{Config.heading[dataLanguage]}</h3>
@@ -119,7 +119,7 @@ const Add = ({
             SUPERVISOR_ROLE
           )
         }
-        className="add-student"
+        className="form-add-update"
       >
         <Col sm="12" className="d-flex flex-column">
           <label className="mx-auto title-login">

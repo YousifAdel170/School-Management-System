@@ -18,6 +18,23 @@ const Footer = () => {
   // Accessing the current language (Arabic or English) from the Redux store
   const dataLanguage = useSelector((state) => state.language);
 
+  const Footer = {
+    terms: { ar: "الشروط والأحكام", "en-US": "Terms and Conditions" },
+    privacy: { ar: "سياسة الخصوصية", "en-US": "Privacy Policy" },
+    contact: { ar: "اتصل بنا", "en-US": "Contact Us" },
+    icons: {
+      phone: "fa-solid fa-phone",
+      facebook: "fa-brands fa-facebook-f",
+      twitter: "fa-brands fa-twitter",
+      instagram: "fa-brands fa-instagram",
+    },
+    phoneNumber: "0123456789",
+    copyright: {
+      ar: "نظام إدارة المدرسة. جميع الحقوق محفوظة.",
+      "en-US": "School Management System. All Rights Reserved.",
+    },
+  };
+
   return (
     // Main footer container with a background and padding
     <div className={`footer-background footer pt-4 main-mode`}>
@@ -30,20 +47,16 @@ const Footer = () => {
             className="d-flex align-items-center mobile-footer-center"
           >
             {/* Link for Terms and Conditions */}
-            <div className="footer-text mx-2">
-              {dataLanguage === "ar"
-                ? "الشروط والأحكام"
-                : "Terms and Conditions"}
-            </div>
+            <div className="footer-text mx-2">{Footer.terms[dataLanguage]}</div>
 
             {/* Link for Privacy Policy */}
             <div className="footer-text mx-2">
-              {dataLanguage === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
+              {Footer.privacy[dataLanguage]}
             </div>
 
             {/* Link for Contact Us */}
             <div className="footer-text mx-2">
-              {dataLanguage === "ar" ? "اتصل بنا" : "Contact Us"}
+              {Footer.contact[dataLanguage]}
             </div>
           </Col>
 
@@ -51,19 +64,19 @@ const Footer = () => {
           <Col sm="6" className="mobile-footer-center footer-center">
             {/* Phone number section */}
             <div className="d-flex pt-3 mx-2">
-              <i className="fa-solid fa-phone mx-2"></i>
-              <p className="footer-phone mx-2">0123456789</p>
+              <i className={`${Footer.icons.phone} mx-2`}></i>
+              <p className="footer-phone mx-2">{Footer.phoneNumber}</p>
             </div>
 
             {/* Social media icons */}
             <div className="d-flex mx-2">
-              <i className="fa-brands fa-facebook-f"></i>
+              <i className={`${Footer.icons.facebook}`}></i>
             </div>
             <div className="d-flex mx-2">
-              <i className="fa-brands fa-twitter"></i>
+              <i className={`${Footer.icons.twitter}`}></i>
             </div>
             <div className="d-flex mx-2">
-              <i className="fa-brands fa-instagram"></i>
+              <i className={`${Footer.icons.instagram}`}></i>
             </div>
           </Col>
         </Row>
@@ -72,10 +85,7 @@ const Footer = () => {
         <Row className="d-flex justify-content-center">
           {/* Copyright text */}
           <p className="footer-text copyright">
-            &copy; <span>{currentYear}</span>{" "}
-            {dataLanguage === "ar"
-              ? "نظام إدارة المدرسة. جميع الحقوق محفوظة."
-              : "School Management System. All Rights Reserved."}
+            &copy; <span>{currentYear}</span> {Footer.copyright[dataLanguage]}
           </p>
         </Row>
       </Container>

@@ -1,11 +1,5 @@
 // Import necessary constants and utilities from the config file
-import {
-  GET_METHOD,
-  TOASTIFY_ERROR,
-  TOASTIFY_FAILED_DELETED,
-  TOASTIFY_SUCCESS,
-  TOASTIFY_SUCCESS_DELETED,
-} from "../scripts/config";
+import { GET_METHOD, TOASTIFY_NOTIFICATIONS } from "../scripts/config";
 
 // Function to fetch updated data
 import { fetchData } from "./fetchData";
@@ -42,9 +36,9 @@ export const handleDelete = async (
   // Utility function to display toast notifications
   const notify = (message, type) => {
     // Show error notification
-    if (type === "Error") toast.error(message);
+    if (type === TOASTIFY_NOTIFICATIONS.error) toast.error(message);
     // Show success notification
-    else if (type === "Success") toast.success(message);
+    else if (type === TOASTIFY_NOTIFICATIONS.success) toast.success(message);
   };
 
   // Prevent the default behavior of the event.
@@ -68,18 +62,27 @@ export const handleDelete = async (
     // Check if the delete operation was successful
     if (data.success) {
       console.log(data.message); // Log the success message
-      notify(TOASTIFY_SUCCESS_DELETED, TOASTIFY_SUCCESS); // Show success notification
+      notify(
+        TOASTIFY_NOTIFICATIONS.successDelete[dataLanguage],
+        TOASTIFY_NOTIFICATIONS.success
+      ); // Show success notification
 
       // Fetch updated data and update the UI
       fetchData(setData, setMsg, setError, GET_METHOD, VIEW_URL, dataLanguage);
     } else {
       // Show an error notification and log the error message
-      notify(TOASTIFY_FAILED_DELETED, TOASTIFY_ERROR);
+      notify(
+        TOASTIFY_NOTIFICATIONS.failedDelete[dataLanguage],
+        TOASTIFY_NOTIFICATIONS.error
+      );
       console.error(`Error deleting ${type}:`, data.message); // Log the error message from server
     }
   } catch (error) {
     // Handle network or unexpected errors
-    notify(TOASTIFY_FAILED_DELETED, TOASTIFY_ERROR); // Show error notification
+    notify(
+      TOASTIFY_NOTIFICATIONS.requestError[dataLanguage],
+      TOASTIFY_NOTIFICATIONS.error
+    ); // Show error notification
     console.error("Error during delete operation:", error); // Log the error details
   }
 };

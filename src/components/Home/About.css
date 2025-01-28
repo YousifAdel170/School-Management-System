@@ -2,13 +2,6 @@
   padding-top: var(--section-padding);
   padding-bottom: var(--section-padding);
 }
-.main-blue-color {
-  color: var(--main-color);
-}
-.main-dark-color {
-  color: var(--dark-mode-color);
-}
-
 div h2 {
   padding: 5px;
   font-weight: bold;
@@ -23,4 +16,13 @@ div h2 {
   .mobile-image-hidden {
     display: none;
   }
+}
+
+.btn-check:checked + .btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check) + .btn:active {
+  background-color: var(--hover-main-color) !important;
+  border-color: var(--main-color) !important;
 }

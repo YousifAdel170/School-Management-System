@@ -83,6 +83,7 @@ const RegisterPage = () => {
         <Row className="py-5 d-flex justify-content-center">
           {/* Form submission handler on form submit */}
           <form
+            className="form-add-update"
             onSubmit={(e) =>
               handleSubmit(
                 e,

@@ -41,8 +41,8 @@ const Aside = ({ lists, heading }) => {
                 to={list.link}
                 className={activeIndex === index ? "active" : ""}
                 onClick={() => handleActiveClass(index)}
-                alt={`${dataLanguage === "ar" ? list.name.ar : list.name.en}`}
-                title={`${dataLanguage === "ar" ? list.name.ar : list.name.en}`}
+                alt={list.name[dataLanguage]}
+                title={list.name[dataLanguage]}
               >
                 {/* Icon rendering, either custom icon from list or a default icon */}
                 {list.icon ? (
@@ -58,9 +58,7 @@ const Aside = ({ lists, heading }) => {
                 )}
 
                 {/* Text rendering based on the selected language (Arabic or English) */}
-                <span>{`${
-                  dataLanguage === "ar" ? list.name.ar : list.name.en
-                }`}</span>
+                <span>{list.name[dataLanguage]}</span>
               </Link>
             </li>
           ))}

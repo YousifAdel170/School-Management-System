@@ -1,6 +1,10 @@
 // Importing necessary libraries and components
-import React, { useState } from "react";
+import React from "react";
 
+// Importing custom Compontent
+import View from "../utilities/View";
+
+// Importing custom Function to get the name of the role id
 import { getRoleNameFromID } from "../../Logic/getRoleNameFromID";
 
 // Importing config values (constants)
@@ -9,22 +13,15 @@ import {
   POST_METHOD,
   URL_GET_ADMISSION,
 } from "../../scripts/config";
-
 import { admissionObject } from "../../scripts/viewData";
-import View from "../utilities/View";
 
 /**
  * AdminAdmission component renders a table with admission data retrieved from the server.
  * It displays error/success messages and automatically updates based on language selection.
  */
 const AdminAdmission = () => {
-  // State variables to store error message, success message, and admission data
-  const [admissionData, setAdmissionData] = useState([]);
-
   return (
     <View
-      data={admissionData}
-      setData={setAdmissionData}
       method={POST_METHOD}
       url={URL_GET_ADMISSION}
       object={admissionObject}

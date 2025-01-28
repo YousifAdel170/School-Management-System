@@ -1,13 +1,7 @@
 // Import necessary constants and utilities
 import {
   REDIRECTING_DELAY,
-  TOASTIFY_ERROR,
-  TOASTIFY_ERROR_REQUEST,
-  TOASTIFY_LOGIN_SUCCESS,
-  TOASTIFY_MISSING_FIELDS,
-  TOASTIFY_OPERATION_SUCCESS,
-  TOASTIFY_REGISTERATION_SUCCESS,
-  TOASTIFY_SUCCESS,
+  TOASTIFY_NOTIFICATIONS,
   TYPE_AUT_REGISTER,
   TYPE_AUTH_LOGIN,
 } from "../scripts/config";
@@ -48,8 +42,8 @@ export const handleSubmit = async (
    * @param {string} type - The type of notification ("Error" or "Success").
    */
   const notify = (message, type) => {
-    if (type === "Error") toast.error(message);
-    else if (type === "Success") toast.success(message);
+    if (type === TOASTIFY_NOTIFICATIONS.error) toast.error(message);
+    else if (type === TOASTIFY_NOTIFICATIONS.success) toast.success(message);
   };
 
   // Prevent default form submission behavior
@@ -88,7 +82,10 @@ export const handleSubmit = async (
             else localStorage.setItem("userType", "teacher");
 
             // Notify the user and set success message
-            notify(TOASTIFY_LOGIN_SUCCESS, TOASTIFY_SUCCESS);
+            notify(
+              TOASTIFY_NOTIFICATIONS.loginSuccess[dataLanguage],
+              TOASTIFY_NOTIFICATIONS.success
+            );
             setMsg(
               dataLanguage === "ar"
                 ? "تم تسجيل الدخول بنجاح! جاري التوجيه..."
@@ -118,13 +115,19 @@ export const handleSubmit = async (
                 : "Registration successful! Redirecting..."
             );
             // Notify the user about successful registration
-            notify(TOASTIFY_REGISTERATION_SUCCESS, TOASTIFY_SUCCESS);
+            notify(
+              TOASTIFY_NOTIFICATIONS.registrationSuccess[dataLanguage],
+              TOASTIFY_NOTIFICATIONS.success
+            );
 
             // Redirect to the login page after a delay
             setTimeout(() => navigate("/login"), 3000);
           } else {
             // Notify for other successful operations
-            notify(TOASTIFY_OPERATION_SUCCESS, TOASTIFY_SUCCESS);
+            notify(
+              TOASTIFY_NOTIFICATIONS.operationSuccess[dataLanguage],
+              TOASTIFY_NOTIFICATIONS.success
+            );
             setMsg(
               dataLanguage === "ar"
                 ? `تمت العملية بنجاح! سيتم إعادة التوجيه...`
@@ -150,13 +153,19 @@ export const handleSubmit = async (
           ? "حدث خطأ أثناء إرسال الطلب."
           : "An error occurred while submitting the request."
       );
-      notify(TOASTIFY_ERROR_REQUEST, TOASTIFY_ERROR);
+      notify(
+        TOASTIFY_NOTIFICATIONS.requestError[dataLanguage],
+        TOASTIFY_NOTIFICATIONS.error
+      );
     }
   } else {
     // Handle missing fields in the payload
     setError(
       dataLanguage === "ar" ? "جميع الحقول مطلوبة." : "All fields are required."
     );
-    notify(TOASTIFY_MISSING_FIELDS, TOASTIFY_ERROR);
+    notify(
+      TOASTIFY_NOTIFICATIONS.missingFields[dataLanguage],
+      TOASTIFY_NOTIFICATIONS.error
+    );
   }
 };

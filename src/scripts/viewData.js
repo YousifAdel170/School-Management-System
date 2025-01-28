@@ -1,7 +1,7 @@
 export const admissionObject = {
   heading: {
     ar: "جدول القبول",
-    en: "Admission Table",
+    "en-US": "Admission Table",
   },
   rows: [
     "ID",
@@ -18,7 +18,7 @@ export const admissionObject = {
 export const statisticsObject = {
   heading: {
     ar: "جدول الإحصائيات",
-    en: "Statistics Table",
+    "en-US": "Statistics Table",
   },
   rows: ["std_counter", "subject_counter", "average"],
 };
@@ -26,7 +26,7 @@ export const statisticsObject = {
 export const subjectsObject = {
   heading: {
     ar: "جدول المواد",
-    en: "Subjects Table",
+    "en-US": "Subjects Table",
   },
   rows: ["ID", "subject_name", "subject_code", "teachingstaff_ID"],
 };
@@ -34,7 +34,7 @@ export const subjectsObject = {
 export const studentsObject = {
   heading: {
     ar: "جدول الطلاب",
-    en: "Students Table",
+    "en-US": "Students Table",
   },
   rows: [
     "id",
@@ -52,7 +52,7 @@ export const studentsObject = {
 export const nonAuthStudentsObject = {
   heading: {
     ar: "جدول الطلاب",
-    en: "Students Table",
+    "en-US": "Students Table",
   },
   rows: ["id", "name", "gender", "classID"],
 };
@@ -60,7 +60,7 @@ export const nonAuthStudentsObject = {
 export const teachersObject = {
   heading: {
     ar: "جدول المعلمين",
-    en: "Teachers Table",
+    "en-US": "Teachers Table",
   },
   rows: [
     "ID",
@@ -79,7 +79,7 @@ export const teachersObject = {
 export const nontAuthTeachersObject = {
   heading: {
     ar: "جدول المعلمين",
-    en: "Teachers Table",
+    "en-US": "Teachers Table",
   },
   rows: ["ID", "name", "specialization", "gender"],
 };

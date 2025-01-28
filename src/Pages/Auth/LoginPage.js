@@ -62,6 +62,7 @@ const LoginPage = () => {
       <Container>
         <Row className="py-5 d-flex justify-content-center">
           <form
+            className="form-add-update"
             onSubmit={(e) =>
               handleSubmit(
                 // Handle form submission by calling the handleSubmit function

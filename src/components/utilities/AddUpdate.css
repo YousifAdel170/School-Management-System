@@ -1,21 +1,23 @@
-.add-student {
+.form-add-update {
   background: var(--secondary-color);
   border-radius: 10px;
   width: fit-content;
-  margin: 10% auto;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 30px;
-  border: 1px solid;
+  border: 1px solid var(--main-color);
 }
 
 @media (max-width: 767px) {
   h3 {
     font-size: 20px !important;
   }
-  .add-std p span {
+  .add-update p span {
     font-size: 15px;
   }
 
-  .add-student {
+  .form-add-update {
     padding: 25px !important;
     label {
       font-size: 17px;
@@ -25,4 +27,8 @@
   .table .btn {
     padding: 4px 8px !important;
   }
+}
+
+.Toastify__toast .Toastify__toast-icon {
+  margin-right: 20px;
 }

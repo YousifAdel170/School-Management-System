@@ -7,6 +7,9 @@ import { Table } from "react-bootstrap";
 // Importing Redux hook to access global state
 import { useSelector } from "react-redux";
 
+// Import navigation hooks from React Router
+import { useNavigate } from "react-router-dom";
+
 // Import ToastContainer for displaying notifications
 import { ToastContainer } from "react-toastify";
 
@@ -31,15 +34,12 @@ import "./View.css";
  * It displays error/success messages and automatically updates based on language selection.
  */
 const View = ({
-  data,
-  setData,
   url,
   object,
   headings,
   getRoleNameFromID,
   admin_delete,
   admin_update,
-  navigate,
   type,
   update_type,
   deleted_url,
@@ -48,6 +48,10 @@ const View = ({
   // State variables to store data
   const [error, setError] = useState(""); // Error message state
   const [msg, setMsg] = useState(""); // Success message state
+  const [data, setData] = useState([]);
+
+  // Hook to navigate between pages
+  const navigate = useNavigate();
 
   // Redux selector to get the current language
   const dataLanguage = useSelector((state) => state.language);
@@ -79,7 +83,7 @@ const View = ({
   return (
     <div className="table">
       {/* Table title, dynamically rendered based on the selected language */}
-      <h3>{dataLanguage === "ar" ? object.heading.ar : object.heading.en}</h3>
+      <h3>{object.heading[dataLanguage]}</h3>
 
       {/* Displaying error or success messages */}
       <p>
@@ -97,10 +101,7 @@ const View = ({
             {/* Loop through admissionHeadings to display table headers */}
             {headings.length
               ? headings.map((heading, index) => (
-                  <th key={index}>
-                    {/* Dynamic table header based on language */}
-                    {dataLanguage === "ar" ? heading.ar : heading.en}
-                  </th>
+                  <th key={index}>{heading[dataLanguage]}</th>
                 ))
               : null}
           </tr>
@@ -126,7 +127,7 @@ const View = ({
                           e,
                           navigate,
                           update_type,
-                          type === SUBJECT_TYPE ? item.id : item.user_id
+                          type === SUBJECT_TYPE ? item.ID : item.user_id
                         )
                       }
                     >
@@ -163,13 +164,9 @@ const View = ({
             ))
           ) : (
             <tr>
-              {type ? (
-                <td colSpan={headings.length} className="text-center">
-                  No {type} found.
-                </td>
-              ) : (
-                <td>No Data Found</td>
-              )}
+              <td colSpan={headings.length} className="text-center">
+                {`No ${type ? type : "Data"} Found`}
+              </td>
             </tr>
           )}
         </tbody>
